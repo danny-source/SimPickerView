@@ -99,7 +99,7 @@
         }
     }
 //  DEBUG_FINAL_INDEXPATH
-    DMLog(@"final index = %ld", finalIndexPath.item);
+    //DMLog(@"final index = %ld", finalIndexPath.item);
     self.focusedIndex = finalIndexPath;
     return CGPointMake(proposedContentOffset.x, proposedContentOffset.y + offsetAdjustment);
 }

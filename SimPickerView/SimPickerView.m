@@ -8,7 +8,9 @@
 
 #import "SimPickerView.h"
 #import "CenterLayout.h"
-#import "MyCell.h"
+#import "SimPickerViewCell.h"
+
+#define CellID @"cell"
 
 @implementation SimPickerView
 
@@ -35,11 +37,12 @@
 {
     _DisplayedItems = 5;
     _MinLineSpacing = 1;
+    _CellHeight = (frame.size.height - (_MinLineSpacing * (_DisplayedItems -1))) / _DisplayedItems;
+
     _collectionView = [[UICollectionView alloc]
                        initWithFrame: CGRectMake(0, 0, frame.size.width, frame.size.height)
                        collectionViewLayout: [[CenterLayout alloc] initWithCellHeight: _CellHeight  displayedItems: _DisplayedItems minimumLineSpacing: _MinLineSpacing]];
 
-    _CellHeight = (frame.size.height - (_MinLineSpacing * (_DisplayedItems -1))) / _DisplayedItems;
 
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -47,7 +50,11 @@
 
     _items = [NSMutableArray arrayWithObjects:@"item 0", @"item 1", @"item 2", @"item 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
 
-    [_collectionView registerClass: [MyCell class] forCellWithReuseIdentifier: @"cell"];
+    UINib *nib = [UINib nibWithNibName: @"SimPickerViewCell" bundle: nil];
+    [_collectionView registerNib: nib forCellWithReuseIdentifier: CellID];
+
+    [self initFocusGlass];
+
     // we want only execute this for the first time
 //    static dispatch_once_t once;
 //    dispatch_once(&once, ^ {
@@ -63,6 +70,7 @@
     CGRect focusPlaceholder = CGRectInset(self.collectionView.frame, 0, (self.CellHeight + self.MinLineSpacing) * emptyItemSpaces);
 
     self.focusImageView = [[UIImageView alloc] initWithFrame: focusPlaceholder];
+    self.focusImageView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.8];
     [self addSubview: self.focusImageView];
 
 }
@@ -80,7 +88,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    MyCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    SimPickerViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier: CellID forIndexPath:indexPath];
     cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     cell.name.text = self.items[indexPath.item];
     return cell;
@@ -92,7 +100,7 @@
 {
 
     CGSize itemSize = CGSizeMake(self.collectionView.bounds.size.width, self.CellHeight);
-    DMLog(@"itemSize = %.2f, %.2f", itemSize.width, itemSize.height);
+    //DMLog(@"itemSize = %.2f, %.2f", itemSize.width, itemSize.height);
     return itemSize;
 }
 
@@ -100,13 +108,13 @@
 {
     //DMLog(@"select item %ld", (long)indexPath.item);
     [[self.collectionView visibleCells] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        MyCell *cell = (MyCell *)obj;
+        SimPickerViewCell *cell = (SimPickerViewCell *)obj;
         cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     }];
 
     [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
 
-    MyCell *cell = (MyCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
+    SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
     cell.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1.0];
 
 }
