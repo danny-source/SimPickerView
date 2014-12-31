@@ -16,4 +16,10 @@
 @property CGFloat CellHeight;
 @property NSInteger DisplayedItems;
 @property CGFloat MinLineSpacing;
+
+- (NSIndexPath *)getSelectedIndexPath;
+// insert / add / delete
+- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath;
+- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath;
 @end

@@ -123,31 +123,6 @@
 }
 
 
-- (IBAction)onDelete:(id)sender
-{
-    NSArray *selectedItems = [self.collectionView indexPathsForSelectedItems];
-
-    [selectedItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self deleteItemAtIndexPath: obj];
-    }];
-}
-
-
-- (IBAction)onAdd:(id)sender
-{
-    NSArray *selectedItems = [self.collectionView indexPathsForSelectedItems];
-
-    // even we use single selection,
-    // the API is still for multiple selection, so we use
-    // map to accomodate the API
-    [selectedItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        //[self insertItem:@"ipsum lorum" atIndexPath: obj];
-        [self appendItem: @"Ipsum Loram" afterIndexPath: obj];
-    }];
-
-}
-
-
 
 - (NSIndexPath *)getLastIndexPath
 {
@@ -158,66 +133,60 @@
 
 - (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL isLastOne = [indexPath isEqual: [self getLastIndexPath]];
+    NSIndexPath *last = [self getLastIndexPath];
 
-    [self.collectionView performBatchUpdates:^{
+    // check range
+    if (indexPath.item > last.item ||
+        indexPath.item < 0) {
+        DMLog(@"delete indexPath error : %@", indexPath);
+        return;
+    }
 
-        // Delete the item from the data source.
-        [self.items removeObjectAtIndex: indexPath.item];
-        // Now delete the items from the collection view.
-        [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+    if ([self.collectionView numberOfItemsInSection: 0] == 1) {
+        return;
+    }
 
-    } completion:^(BOOL finished) {
+    // Delete the item from the data source.
+    [self.items removeObjectAtIndex: indexPath.item];
+    // Now delete the items from the collection view.
+    [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
 
-        NSIndexPath *focusedIndexPath = indexPath;
-
-        if (isLastOne) {
-            // the indexPath has been deleted
-            focusedIndexPath = [self getLastIndexPath];
-        }
-
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: focusedIndexPath];
-    }];
+    if ([indexPath isEqual: last]) {
+        // the indexPath has just been deleted, refetch lastIndexPath
+        [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
+    }
+    else {
+        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+    }
 
 }
 
 - (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath
 {
-    [self.collectionView performBatchUpdates:^{
+    // insert item to data source
+    [self.items insertObject: newItem atIndex: indexPath.item];
+    // Now add the items to the collection view.
+    [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
 
-        // insert item to data source
-        [self.items insertObject: newItem atIndex: indexPath.item];
-        // Now add the items to the collection view.
-        [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-
-    } completion:^(BOOL finished) {
-
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
-    }];
+    [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
 
 }
 
 - (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath
 {
     NSIndexPath *target = [NSIndexPath indexPathForItem: indexPath.item + 1 inSection: indexPath.section];
-
-    [self.collectionView performBatchUpdates:^{
-
-        // insert item to data source
-        [self.items insertObject: newItem atIndex: target.item];
-        // Now add the items to the collection view.
-        [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: target, nil]];
-
-    } completion:^(BOOL finished) {
-
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: target];
-    }];
-
+    [self insertItem: newItem atIndexPath: target];
 }
 
-#pragma mark - scrolling detection
 
-- (NSIndexPath *)getFocusItemIndexPath
+#pragma mark - scrolling detection
+- (NSIndexPath *)getSelectedIndexPath
+{
+    NSArray *indexPaths = [self.collectionView indexPathsForSelectedItems];
+    return indexPaths[0];
+}
+
+- (NSIndexPath *)predictedFocusIndexPath
 {
     return ((CenterLayout *)self.collectionView.collectionViewLayout).focusedIndex;
 }
@@ -225,13 +194,13 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (!decelerate) {
-        [self collectionView: self.collectionView didSelectItemAtIndexPath: [self getFocusItemIndexPath]];
+        [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self collectionView: self.collectionView didSelectItemAtIndexPath: [self getFocusItemIndexPath]];
+    [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
 }
 
 

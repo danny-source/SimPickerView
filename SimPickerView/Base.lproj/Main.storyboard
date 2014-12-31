@@ -24,14 +24,39 @@
                                     <constraint firstAttribute="height" constant="254" id="Lti-va-Daa"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ig4-an-GHJ">
+                                <rect key="frame" x="37" y="37" width="63" height="30"/>
+                                <state key="normal" title="Add Item">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onAdd:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zj9-n3-DSB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ETL-lm-DiD">
+                                <rect key="frame" x="37" y="116" width="79" height="30"/>
+                                <state key="normal" title="Delete Item">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onDelete:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nvg-3E-d1g"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="YzX-YB-CU8" secondAttribute="trailing" constant="-16" id="7se-Dq-3cf"/>
+                            <constraint firstItem="ETL-lm-DiD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="E6G-bt-bq5"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="J5x-Mw-B95"/>
+                            <constraint firstItem="ig4-an-GHJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="Mbr-cg-GwI"/>
+                            <constraint firstItem="ig4-an-GHJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="17" id="TsR-Pj-S6p"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="235" id="gDs-fF-nv5"/>
+                            <constraint firstItem="ETL-lm-DiD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="96" id="yp2-rG-lIV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="simPickerView" destination="YzX-YB-CU8" id="Ea7-cR-IzQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

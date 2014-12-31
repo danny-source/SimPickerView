@@ -24,4 +24,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)onDelete:(id)sender
+{
+    NSIndexPath *sel = [self.simPickerView getSelectedIndexPath];
+    [self.simPickerView deleteItemAtIndexPath: sel];
+}
+
+
+- (IBAction)onAdd:(id)sender
+{
+    NSIndexPath *sel = [self.simPickerView getSelectedIndexPath];
+    [self.simPickerView appendItem: @"Ipsum Loram" afterIndexPath: sel];
+}
+
 @end
