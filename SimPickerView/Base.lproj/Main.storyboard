@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YzX-YB-CU8">
-                                <rect key="frame" x="0.0" y="291" width="600" height="279"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YzX-YB-CU8" customClass="SimPickerView">
+                                <rect key="frame" x="0.0" y="255" width="600" height="254"/>
                                 <color key="backgroundColor" red="0.78020438762626265" green="0.78020438762626265" blue="0.78020438762626265" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>

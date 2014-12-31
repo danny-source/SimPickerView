@@ -14,6 +14,9 @@
 		E2C3A2CA1A53C60C00D2515F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2C3A2C91A53C60C00D2515F /* Images.xcassets */; };
 		E2C3A2CD1A53C60C00D2515F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C3A2CB1A53C60C00D2515F /* LaunchScreen.xib */; };
 		E2C3A2D91A53C60C00D2515F /* SimPickerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2D81A53C60C00D2515F /* SimPickerViewTests.m */; };
+		E2C3A2E51A53C95000D2515F /* SimPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2E41A53C95000D2515F /* SimPickerView.m */; };
+		E2C3A2E81A53CBC700D2515F /* CenterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2E71A53CBC700D2515F /* CenterLayout.m */; };
+		E2C3A2EB1A53E34300D2515F /* MyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2EA1A53E34300D2515F /* MyCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,12 @@
 		E2C3A2D21A53C60C00D2515F /* SimPickerViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimPickerViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C3A2D71A53C60C00D2515F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2C3A2D81A53C60C00D2515F /* SimPickerViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimPickerViewTests.m; sourceTree = "<group>"; };
+		E2C3A2E31A53C95000D2515F /* SimPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimPickerView.h; sourceTree = "<group>"; };
+		E2C3A2E41A53C95000D2515F /* SimPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimPickerView.m; sourceTree = "<group>"; };
+		E2C3A2E61A53CBC700D2515F /* CenterLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterLayout.h; sourceTree = "<group>"; };
+		E2C3A2E71A53CBC700D2515F /* CenterLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterLayout.m; sourceTree = "<group>"; };
+		E2C3A2E91A53E34300D2515F /* MyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCell.h; sourceTree = "<group>"; };
+		E2C3A2EA1A53E34300D2515F /* MyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +95,12 @@
 				E2C3A2C31A53C60C00D2515F /* ViewController.h */,
 				E2C3A2C41A53C60C00D2515F /* ViewController.m */,
 				E2C3A2C61A53C60C00D2515F /* Main.storyboard */,
+				E2C3A2E31A53C95000D2515F /* SimPickerView.h */,
+				E2C3A2E41A53C95000D2515F /* SimPickerView.m */,
+				E2C3A2E61A53CBC700D2515F /* CenterLayout.h */,
+				E2C3A2E71A53CBC700D2515F /* CenterLayout.m */,
+				E2C3A2E91A53E34300D2515F /* MyCell.h */,
+				E2C3A2EA1A53E34300D2515F /* MyCell.m */,
 				E2C3A2C91A53C60C00D2515F /* Images.xcassets */,
 				E2C3A2CB1A53C60C00D2515F /* LaunchScreen.xib */,
 				E2C3A2BC1A53C60C00D2515F /* Supporting Files */,
@@ -236,9 +251,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2C3A2E81A53CBC700D2515F /* CenterLayout.m in Sources */,
+				E2C3A2E51A53C95000D2515F /* SimPickerView.m in Sources */,
 				E2C3A2C51A53C60C00D2515F /* ViewController.m in Sources */,
 				E2C3A2C21A53C60C00D2515F /* AppDelegate.m in Sources */,
 				E2C3A2BF1A53C60C00D2515F /* main.m in Sources */,
+				E2C3A2EB1A53E34300D2515F /* MyCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
