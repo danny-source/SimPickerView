@@ -7,25 +7,53 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SimPickerViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="284" height="79"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="284" height="79"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q97-uy-Y7Q">
-                        <rect key="frame" x="54" y="29" width="169" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q97-uy-Y7Q">
+                        <rect key="frame" x="71" y="30" width="153" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <constraints>
+                <constraint firstItem="q97-uy-Y7Q" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="4J1-UH-DG5"/>
+                <constraint firstAttribute="trailing" secondItem="q97-uy-Y7Q" secondAttribute="trailing" constant="60" id="9Qt-QX-sI5"/>
+                <constraint firstItem="q97-uy-Y7Q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="71" id="Fny-y1-VTp"/>
+                <constraint firstAttribute="trailing" secondItem="q97-uy-Y7Q" secondAttribute="trailing" constant="96" id="H9x-9j-Yvt"/>
+                <constraint firstAttribute="centerY" secondItem="q97-uy-Y7Q" secondAttribute="centerY" id="NVL-8p-mS8"/>
+                <constraint firstItem="q97-uy-Y7Q" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Xf0-cp-KhR"/>
+                <constraint firstAttribute="centerY" secondItem="q97-uy-Y7Q" secondAttribute="centerY" constant="-0.5" id="YZQ-Ly-KA1"/>
+                <constraint firstAttribute="trailing" secondItem="q97-uy-Y7Q" secondAttribute="trailing" constant="96" id="Z31-9x-U1G"/>
+                <constraint firstItem="q97-uy-Y7Q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="71" id="aOK-fJ-OWE"/>
+                <constraint firstItem="q97-uy-Y7Q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="71" id="gRI-wo-XKt"/>
+                <constraint firstAttribute="centerX" secondItem="q97-uy-Y7Q" secondAttribute="centerX" constant="12.5" id="nrB-R6-Z6h"/>
+                <constraint firstAttribute="centerX" secondItem="q97-uy-Y7Q" secondAttribute="centerX" constant="3.5" id="sy6-TK-E8Y"/>
+            </constraints>
             <size key="customSize" width="284" height="79"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="4J1-UH-DG5"/>
+                    <exclude reference="9Qt-QX-sI5"/>
+                    <exclude reference="Fny-y1-VTp"/>
+                    <exclude reference="H9x-9j-Yvt"/>
+                    <exclude reference="NVL-8p-mS8"/>
+                    <exclude reference="Xf0-cp-KhR"/>
+                    <exclude reference="Z31-9x-U1G"/>
+                    <exclude reference="aOK-fJ-OWE"/>
+                    <exclude reference="gRI-wo-XKt"/>
+                    <exclude reference="sy6-TK-E8Y"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="name" destination="q97-uy-Y7Q" id="b0c-dJ-w4r"/>
             </connections>
-            <point key="canvasLocation" x="569" y="344.5"/>
+            <point key="canvasLocation" x="569" y="345"/>
         </collectionViewCell>
     </objects>
 </document>

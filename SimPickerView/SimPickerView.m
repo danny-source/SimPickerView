@@ -19,7 +19,9 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self commonInit: self.frame];
+        CGRect effectFrame = self.frame;
+        effectFrame.size.width = 380;
+        [self commonInit: effectFrame];
     }
     return self;
 }
@@ -46,6 +48,7 @@
 
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
+    _collectionView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     [self addSubview: _collectionView];
 
     _items = [NSMutableArray arrayWithObjects:@"item 0", @"item 1", @"item 2", @"item 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
@@ -56,10 +59,10 @@
     [self initFocusGlass];
 
     // we want only execute this for the first time
-//    static dispatch_once_t once;
-//    dispatch_once(&once, ^ {
-//        [self collectionView:self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
-//    });
+    static dispatch_once_t once;
+    dispatch_once(&once, ^ {
+        [self collectionView:self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
+    });
 
 }
 
@@ -70,7 +73,7 @@
     CGRect focusPlaceholder = CGRectInset(self.collectionView.frame, 0, (self.CellHeight + self.MinLineSpacing) * emptyItemSpaces);
 
     self.focusImageView = [[UIImageView alloc] initWithFrame: focusPlaceholder];
-    self.focusImageView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.8];
+    self.focusImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.2];
     [self addSubview: self.focusImageView];
 
 }
@@ -100,7 +103,7 @@
 {
 
     CGSize itemSize = CGSizeMake(self.collectionView.bounds.size.width, self.CellHeight);
-    //DMLog(@"itemSize = %.2f, %.2f", itemSize.width, itemSize.height);
+    DMLog(@"itemSize = %.2f, %.2f", itemSize.width, itemSize.height);
     return itemSize;
 }
 
