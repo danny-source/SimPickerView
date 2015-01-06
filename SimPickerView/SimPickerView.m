@@ -51,7 +51,7 @@
     _collectionView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     [self addSubview: _collectionView];
 
-    _items = [NSMutableArray arrayWithObjects:@"item 0", @"item 1", @"item 2", @"item 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
+    //_items = [NSMutableArray arrayWithObjects:@"item 0", @"item 1", @"item 2", @"item 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
 
     UINib *nib = [UINib nibWithNibName: @"SimPickerViewCell" bundle: nil];
     [_collectionView registerNib: nib forCellWithReuseIdentifier: CellID];
@@ -60,9 +60,9 @@
 
     // we want only execute this for the first time
     static dispatch_once_t once;
-    dispatch_once(&once, ^ {
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
-    });
+//    dispatch_once(&once, ^ {
+//        [self collectionView:self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
+//    });
 
 }
 
@@ -86,14 +86,29 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.items.count;
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(numberOfRowsInPickerView:)]) {
+        return [self.delegate numberOfRowsInPickerView: self];
+    }
+    else {
+        DMLog(@"no available delegate object");
+        return 0;
+    }
+
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SimPickerViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier: CellID forIndexPath:indexPath];
     cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-    cell.name.text = self.items[indexPath.item];
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(pickerView:titleForRow:)]) {
+        cell.name.text = [self.delegate pickerView: self titleForRow: indexPath.row];
+    }
+    else {
+        cell.name.text = @"";
+        DMLog(@"no available title");
+    }
     return cell;
 }
 
@@ -103,7 +118,7 @@
 {
 
     CGSize itemSize = CGSizeMake(self.collectionView.bounds.size.width, self.CellHeight);
-    DMLog(@"itemSize = %.2f, %.2f", itemSize.width, itemSize.height);
+    //DMLog(@"itemSize = %.2f, %.2f", itemSize.width, itemSize.height);
     return itemSize;
 }
 
@@ -120,6 +135,11 @@
     SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
     cell.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1.0];
 
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)]) {
+        [self.delegate pickerView: self didSelectRow: indexPath.item];
+    }
+
 }
 
 
@@ -131,52 +151,57 @@
 }
 
 
-- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)reloadData
 {
-    NSIndexPath *last = [self getLastIndexPath];
-
-    // check range
-    if (indexPath.item > last.item ||
-        indexPath.item < 0) {
-        DMLog(@"delete indexPath error : %@", indexPath);
-        return;
-    }
-
-    if ([self.collectionView numberOfItemsInSection: 0] == 1) {
-        return;
-    }
-
-    // Delete the item from the data source.
-    [self.items removeObjectAtIndex: indexPath.item];
-    // Now delete the items from the collection view.
-    [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-
-    if ([indexPath isEqual: last]) {
-        // the indexPath has just been deleted, refetch lastIndexPath
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
-    }
-    else {
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
-    }
-
+    [self.collectionView reloadData];
 }
 
-- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath
-{
-    // insert item to data source
-    [self.items insertObject: newItem atIndex: indexPath.item];
-    // Now add the items to the collection view.
-    [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-
-    [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
-
-}
-
-- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath
-{
-    NSIndexPath *target = [NSIndexPath indexPathForItem: indexPath.item + 1 inSection: indexPath.section];
-    [self insertItem: newItem atIndexPath: target];
-}
+//- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    NSIndexPath *last = [self getLastIndexPath];
+//
+//    // check range
+//    if (indexPath.item > last.item ||
+//        indexPath.item < 0) {
+//        DMLog(@"delete indexPath error : %@", indexPath);
+//        return;
+//    }
+//
+//    if ([self.collectionView numberOfItemsInSection: 0] == 1) {
+//        return;
+//    }
+//
+//    // Delete the item from the data source.
+//    [self.items removeObjectAtIndex: indexPath.item];
+//    // Now delete the items from the collection view.
+//    [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+//
+//    if ([indexPath isEqual: last]) {
+//        // the indexPath has just been deleted, refetch lastIndexPath
+//        [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
+//    }
+//    else {
+//        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+//    }
+//
+//}
+//
+//- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath
+//{
+//    // insert item to data source
+//    [self.items insertObject: newItem atIndex: indexPath.item];
+//    // Now add the items to the collection view.
+//    [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+//
+//    [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+//
+//}
+//
+//- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath
+//{
+//    NSIndexPath *target = [NSIndexPath indexPathForItem: indexPath.item + 1 inSection: indexPath.section];
+//    [self insertItem: newItem atIndexPath: target];
+//}
 
 
 #pragma mark - scrolling detection

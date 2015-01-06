@@ -8,18 +8,33 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+@class SimPickerView;
+
+
+@protocol SimPickerDelegateProtocol <NSObject>
+- (NSInteger)numberOfRowsInPickerView:(SimPickerView *)pickerView;
+- (NSString *)pickerView:(SimPickerView *)pickerView titleForRow:(NSInteger)row;
+- (void)pickerView:(SimPickerView *)pickerView didSelectRow:(NSInteger)row;
+@end
+
+
 @interface SimPickerView : UIView<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) NSMutableArray *items;
+//@property (strong, nonatomic) NSMutableArray *items;
 @property (strong, nonatomic) UIImageView *focusImageView;
 // properties to define the look of pickerview
 @property CGFloat CellHeight;
 @property NSInteger DisplayedItems;
+@property (strong, nonatomic) id<SimPickerDelegateProtocol> delegate;
 @property CGFloat MinLineSpacing;
 
 - (NSIndexPath *)getSelectedIndexPath;
 // insert / add / delete
-- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath;
-- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath;
-- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath;
+//- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath;
+//- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath;
+//- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath;
+- (void)reloadData;
 @end
+

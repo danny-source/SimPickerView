@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SimPickerView.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<SimPickerDelegateProtocol>
 
 @property (weak, nonatomic) IBOutlet SimPickerView *simPickerView;
 
