@@ -51,21 +51,24 @@
     _collectionView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     [self addSubview: _collectionView];
 
-    //_items = [NSMutableArray arrayWithObjects:@"item 0", @"item 1", @"item 2", @"item 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
-
     UINib *nib = [UINib nibWithNibName: @"SimPickerViewCell" bundle: nil];
     [_collectionView registerNib: nib forCellWithReuseIdentifier: CellID];
 
     [self initFocusGlass];
 
     // we want only execute this for the first time
-    static dispatch_once_t once;
-//    dispatch_once(&once, ^ {
-//        [self collectionView:self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
-//    });
 
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    static dispatch_once_t once;
+    dispatch_once(&once, ^ {
+        [self.collectionView selectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0] animated: NO scrollPosition: UICollectionViewScrollPositionCenteredVertically];
+    });
+
+}
 
 - (void)initFocusGlass
 {
@@ -130,7 +133,7 @@
         cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     }];
 
-    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+    [self.collectionView selectItemAtIndexPath: indexPath animated: YES scrollPosition: UICollectionViewScrollPositionCenteredVertically];
 
     SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
     cell.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1.0];
@@ -207,8 +210,9 @@
 #pragma mark - scrolling detection
 - (NSIndexPath *)getSelectedIndexPath
 {
-    NSArray *indexPaths = [self.collectionView indexPathsForSelectedItems];
-    return indexPaths[0];
+    CGPoint centerPoint = CGPointMake(self.collectionView.frame.size.width / 2 + self.collectionView.contentOffset.x, self.collectionView.frame.size.height /2 + self.collectionView.contentOffset.y);
+    NSIndexPath *indexPathOfCentralCell = [self.collectionView indexPathForItemAtPoint:centerPoint];
+    return  indexPathOfCentralCell;
 }
 
 - (NSIndexPath *)predictedFocusIndexPath
