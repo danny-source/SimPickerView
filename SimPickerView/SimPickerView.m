@@ -20,7 +20,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         CGRect effectFrame = self.frame;
-        effectFrame.size.width = 380;
+        effectFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
         [self commonInit: effectFrame];
     }
     return self;
@@ -158,6 +158,9 @@
 {
     [self.collectionView reloadData];
 }
+
+// remove comment if we want have a chance
+// to animate add/delete operations ourself.
 
 //- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath
 //{
