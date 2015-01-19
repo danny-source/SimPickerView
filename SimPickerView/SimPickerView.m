@@ -56,7 +56,11 @@
 
     [self initFocusGlass];
 
-    // we want only execute this for the first time
+    self.buttonDisclosure = [[UIButton alloc] init];
+    self.buttonDisclosure.frame = CGRectMake(0, 0, 40, 40);
+    [self.buttonDisclosure addTarget: self action: @selector(buttonDisclosurePressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *image = [UIImage imageNamed: @"arrow-disclosure"];
+    [self.buttonDisclosure setImage: image forState: UIControlStateNormal];
 
 }
 
@@ -76,7 +80,7 @@
     CGRect focusPlaceholder = CGRectInset(self.collectionView.frame, 0, (self.CellHeight + self.MinLineSpacing) * emptyItemSpaces);
 
     self.focusImageView = [[UIImageView alloc] initWithFrame: focusPlaceholder];
-    self.focusImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.2];
+    self.focusImageView.image = [UIImage imageNamed: @"glass"];
     [self addSubview: self.focusImageView];
 
 }
@@ -103,6 +107,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SimPickerViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier: CellID forIndexPath:indexPath];
+
     cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(pickerView:titleForRow:)]) {
@@ -136,16 +141,20 @@
     [self.collectionView selectItemAtIndexPath: indexPath animated: YES scrollPosition: UICollectionViewScrollPositionCenteredVertically];
 
     SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
-    cell.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1.0];
+    [cell addDisclosureButton: self.buttonDisclosure];
 
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)]) {
         [self.delegate pickerView: self didSelectRow: indexPath.item];
     }
-
 }
 
 
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.buttonDisclosure removeFromSuperview];
+
+}
 
 - (NSIndexPath *)getLastIndexPath
 {
@@ -157,6 +166,7 @@
 - (void)reloadData
 {
     [self.collectionView reloadData];
+
 }
 
 // remove comment if we want have a chance
@@ -211,7 +221,7 @@
 
 
 #pragma mark - scrolling detection
-- (NSIndexPath *)getSelectedIndexPath
+- (NSIndexPath *)getFocusIndexPath
 {
     CGPoint centerPoint = CGPointMake(self.collectionView.frame.size.width / 2 + self.collectionView.contentOffset.x, self.collectionView.frame.size.height /2 + self.collectionView.contentOffset.y);
     NSIndexPath *indexPathOfCentralCell = [self.collectionView indexPathForItemAtPoint:centerPoint];
@@ -225,6 +235,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+    [self.buttonDisclosure removeFromSuperview];
     if (!decelerate) {
         [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
     }
@@ -232,8 +243,14 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    [self.buttonDisclosure removeFromSuperview];
     [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
 }
 
+#pragma mark - Target Action
 
+- (IBAction)buttonDisclosurePressed:(id)sender
+{
+    DMLog(@"disclosure button pressed");
+}
 @end

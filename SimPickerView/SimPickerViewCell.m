@@ -11,7 +11,12 @@
 @implementation SimPickerViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.disclosurePlaceHolder.backgroundColor = [UIColor clearColor];
+
 }
 
+- (void)addDisclosureButton:(UIButton *)button
+{
+    [self.disclosurePlaceHolder addSubview: button];
+}
 @end

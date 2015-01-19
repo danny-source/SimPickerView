@@ -28,7 +28,7 @@
 
 - (IBAction)onDelete:(id)sender
 {
-    NSIndexPath *sel = [self.simPickerView getSelectedIndexPath];
+    NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
     [self.items removeObjectAtIndex: sel.item];
     [self.simPickerView reloadData];
 }
@@ -36,7 +36,7 @@
 
 - (IBAction)onAdd:(id)sender
 {
-    NSIndexPath *sel = [self.simPickerView getSelectedIndexPath];
+    NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
     [self.items insertObject:@"Ipsum Loram" atIndex:sel.item];
     [self.simPickerView reloadData];
 }

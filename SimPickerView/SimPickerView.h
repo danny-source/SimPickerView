@@ -22,15 +22,15 @@
 
 @interface SimPickerView : UIView<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionView *collectionView;
-//@property (strong, nonatomic) NSMutableArray *items;
 @property (strong, nonatomic) UIImageView *focusImageView;
 // properties to define the look of pickerview
 @property CGFloat CellHeight;
 @property NSInteger DisplayedItems;
 @property (strong, nonatomic) id<SimPickerDelegateProtocol> delegate;
 @property CGFloat MinLineSpacing;
+@property (strong, nonatomic) UIButton *buttonDisclosure;
 
-- (NSIndexPath *)getSelectedIndexPath;
+- (NSIndexPath *)getFocusIndexPath;
 // insert / add / delete
 //- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath;
 //- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath;

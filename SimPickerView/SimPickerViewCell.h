@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface SimPickerViewCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIView *disclosurePlaceHolder;
 
 @property (weak, nonatomic) IBOutlet UILabel *name;
+
+- (void)addDisclosureButton: (UIButton *)button;
 @end
