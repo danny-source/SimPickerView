@@ -33,8 +33,17 @@
                                     <action selector="onAdd:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zj9-n3-DSB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="di7-Ri-kaS">
+                                <rect key="frame" x="37" y="162" width="89" height="30"/>
+                                <state key="normal" title="Append Item">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onAppend:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZLd-68-iAY"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ETL-lm-DiD">
-                                <rect key="frame" x="37" y="116" width="79" height="30"/>
+                                <rect key="frame" x="37" y="101" width="79" height="30"/>
                                 <state key="normal" title="Delete Item">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -51,7 +60,7 @@
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="Mbr-cg-GwI"/>
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="17" id="TsR-Pj-S6p"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="235" id="gDs-fF-nv5"/>
-                            <constraint firstItem="ETL-lm-DiD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="96" id="yp2-rG-lIV"/>
+                            <constraint firstItem="ETL-lm-DiD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="81" id="yp2-rG-lIV"/>
                         </constraints>
                     </view>
                     <connections>

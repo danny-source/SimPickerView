@@ -166,59 +166,62 @@
 - (void)reloadData
 {
     [self.collectionView reloadData];
-
+    NSIndexPath *focusedIndexPath = [self getFocusIndexPath];
+    DMLog(@"%@", focusedIndexPath);
+    SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusedIndexPath];
+    [cell addDisclosureButton: self.buttonDisclosure];
 }
 
 // remove comment if we want have a chance
 // to animate add/delete operations ourself.
 
-//- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    NSIndexPath *last = [self getLastIndexPath];
-//
-//    // check range
-//    if (indexPath.item > last.item ||
-//        indexPath.item < 0) {
-//        DMLog(@"delete indexPath error : %@", indexPath);
-//        return;
-//    }
-//
-//    if ([self.collectionView numberOfItemsInSection: 0] == 1) {
-//        return;
-//    }
-//
-//    // Delete the item from the data source.
-//    [self.items removeObjectAtIndex: indexPath.item];
-//    // Now delete the items from the collection view.
-//    [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-//
-//    if ([indexPath isEqual: last]) {
-//        // the indexPath has just been deleted, refetch lastIndexPath
-//        [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
-//    }
-//    else {
-//        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
-//    }
-//
-//}
-//
-//- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath
-//{
-//    // insert item to data source
-//    [self.items insertObject: newItem atIndex: indexPath.item];
-//    // Now add the items to the collection view.
-//    [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-//
-//    [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
-//
-//}
-//
-//- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath
-//{
-//    NSIndexPath *target = [NSIndexPath indexPathForItem: indexPath.item + 1 inSection: indexPath.section];
-//    [self insertItem: newItem atIndexPath: target];
-//}
+- (void)deleteRow:(NSInteger)row
+{
+    NSIndexPath *last = [self getLastIndexPath];
 
+    // check range
+    if (row > last.item ||
+        row < 0) {
+        DMLog(@"delete indexPath error : %ld", row);
+        return;
+    }
+
+    if ([self.collectionView numberOfItemsInSection: 0] == 1) {
+        return;
+    }
+
+    // Delete the item from the data source.
+    [self.delegate callbackDeleteRow: row];
+    // Now delete the items from the collection view.
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
+    [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+
+    if ([indexPath isEqual: last]) {
+        // the indexPath has just been deleted, refetch lastIndexPath
+        [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
+    }
+    else {
+        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+    }
+
+}
+
+
+- (void)insertItem:(id)newItem atRow:(NSInteger)row
+{
+    // insert item to data source
+    [self.delegate callbackInsertItem: newItem atRow: row];
+    // Now add the items to the collection view.
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
+    [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+
+    [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+}
+
+- (void)insertItem:(id)newItem afterRow:(NSInteger)row
+{
+    [self insertItem: newItem atRow: row + 1];
+}
 
 #pragma mark - scrolling detection
 - (NSIndexPath *)getFocusIndexPath

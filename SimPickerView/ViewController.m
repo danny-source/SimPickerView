@@ -29,16 +29,26 @@
 - (IBAction)onDelete:(id)sender
 {
     NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
-    [self.items removeObjectAtIndex: sel.item];
-    [self.simPickerView reloadData];
+    [self.simPickerView deleteRow: sel.item];
 }
 
+static NSInteger count = 0;
 
 - (IBAction)onAdd:(id)sender
 {
     NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
-    [self.items insertObject:@"Ipsum Loram" atIndex:sel.item];
-    [self.simPickerView reloadData];
+
+    NSString *newItem = [NSString stringWithFormat: @"Ipsum Loram %ld", count];
+    [self.simPickerView insertItem: newItem atRow: sel.item];
+    count++;
+}
+
+- (IBAction)onAppend:(id)sender {
+    NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
+    static NSInteger count = 0;
+    NSString *newItem = [NSString stringWithFormat: @"Ipsum Loram %ld", count];
+    [self.simPickerView insertItem: newItem afterRow: sel.item];
+    count++;
 }
 
 #pragma mark - delegate
@@ -55,5 +65,15 @@
 -(void)pickerView:(SimPickerView *)pickerView didSelectRow:(NSInteger)row
 {
     NSLog(@"did select row %ld", row);
+}
+
+- (void)callbackInsertItem:(id)item atRow:(NSInteger)row
+{
+    [self.items insertObject:item atIndex:row];
+}
+
+- (void)callbackDeleteRow:(NSInteger)deleteRow
+{
+    [self.items removeObjectAtIndex: deleteRow];
 }
 @end

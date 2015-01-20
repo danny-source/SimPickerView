@@ -17,6 +17,8 @@
 - (NSInteger)numberOfRowsInPickerView:(SimPickerView *)pickerView;
 - (NSString *)pickerView:(SimPickerView *)pickerView titleForRow:(NSInteger)row;
 - (void)pickerView:(SimPickerView *)pickerView didSelectRow:(NSInteger)row;
+- (void)callbackInsertItem:(id)item atRow:(NSInteger)row;
+- (void)callbackDeleteRow:(NSInteger)deleteRow;
 @end
 
 
@@ -32,9 +34,9 @@
 
 - (NSIndexPath *)getFocusIndexPath;
 // insert / add / delete
-//- (void)deleteItemAtIndexPath:(NSIndexPath *)indexPath;
-//- (void)insertItem:(id)newItem atIndexPath:(NSIndexPath *)indexPath;
-//- (void)appendItem:(id)newItem afterIndexPath:(NSIndexPath *)indexPath;
+- (void)deleteRow:(NSInteger)deleteRow;
+- (void)insertItem:(id)newItem atRow:(NSInteger)row;
+- (void)insertItem:(id)newItem afterRow:(NSInteger)row;
 - (void)reloadData;
 @end
 
