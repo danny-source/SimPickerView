@@ -13,5 +13,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *name;
 
-- (void)addDisclosureButton: (UIButton *)button;
+- (void)addButton: (UIButton *)button;
 @end

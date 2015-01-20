@@ -56,6 +56,7 @@
 
     [self addSubview: [self makeFocusGlass]];
     self.buttonDisclosure = [self makeButtonDisclosure];
+    self.swipeGesture = [self makeSwipeGestureRecognizer];
 }
 
 // mark disclosure take effect only when
@@ -71,6 +72,11 @@
     });
 }
 
+- (UISwipeGestureRecognizer *)makeSwipeGestureRecognizer
+{
+    UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGestureRecognized:)];
+    return gesture;
+}
 
 - (UIImageView *)makeFocusGlass
 {
@@ -86,7 +92,7 @@
 - (UIButton *)makeButtonDisclosure
 {
     UIButton *button = [[UIButton alloc] init];
-    button.frame = CGRectMake(0, 0, 40, 40);
+    // buttom frame will be setup in [SimPickerViewCell addButton:]
     [button addTarget: self action: @selector(buttonDisclosurePressed:) forControlEvents:UIControlEventTouchUpInside];
     UIImage *image = [UIImage imageNamed: @"arrow-disclosure"];
     [button setImage: image forState: UIControlStateNormal];
@@ -149,7 +155,8 @@
     [self.collectionView selectItemAtIndexPath: indexPath animated: YES scrollPosition: UICollectionViewScrollPositionCenteredVertically];
 
     SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
-    [cell addDisclosureButton: self.buttonDisclosure];
+    [cell addButton: self.buttonDisclosure];
+    [cell addGestureRecognizer: self.swipeGesture];
 
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)]) {
@@ -177,7 +184,7 @@
     NSIndexPath *focusedIndexPath = [self getFocusIndexPath];
     DMLog(@"%@", focusedIndexPath);
     SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusedIndexPath];
-    [cell addDisclosureButton: self.buttonDisclosure];
+    [cell addButton: self.buttonDisclosure];
 }
 
 // remove comment if we want have a chance
@@ -244,9 +251,18 @@
     return ((CenterLayout *)self.collectionView.collectionViewLayout).focusedIndex;
 }
 
+#pragma mark - scrolling handlers
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    NSIndexPath *indexPath = [self getFocusIndexPath];
+    SimPickerViewCell *cell = (SimPickerViewCell *) [self.collectionView cellForItemAtIndexPath: indexPath];
+    DMLog(@"begin scrolling from %ld", indexPath.item);
+    [self.buttonDisclosure removeFromSuperview];
+    [cell removeGestureRecognizer: self.swipeGesture];
+}
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [self.buttonDisclosure removeFromSuperview];
     if (!decelerate) {
         [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
     }
@@ -254,7 +270,6 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self.buttonDisclosure removeFromSuperview];
     [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
 }
 
@@ -263,5 +278,15 @@
 - (IBAction)buttonDisclosurePressed:(id)sender
 {
     DMLog(@"disclosure button pressed");
+}
+
+- (IBAction)buttonDeletePressed:(id)sender
+{
+    DMLog(@"delete button pressed");
+}
+
+- (IBAction)swipeGestureRecognized:(id)sender
+{
+    DMLog(@"swipe gesture catched");
 }
 @end

@@ -15,8 +15,9 @@
 
 }
 
-- (void)addDisclosureButton:(UIButton *)button
+- (void)addButton:(UIButton *)button
 {
+    button.frame = self.disclosurePlaceHolder.bounds;
     [self.disclosurePlaceHolder addSubview: button];
 }
 @end

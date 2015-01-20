@@ -25,6 +25,7 @@
 @interface SimPickerView : UIView<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIImageView *focusImageView;
+@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;
 // properties to define the look of pickerview
 @property CGFloat CellHeight;
 @property NSInteger DisplayedItems;
