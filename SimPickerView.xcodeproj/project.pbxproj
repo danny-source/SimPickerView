@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E275B8041A53FCC300BBA4AA /* SimPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E275B8021A53FCC300BBA4AA /* SimPickerViewCell.m */; };
 		E275B8051A53FCC300BBA4AA /* SimPickerViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E275B8031A53FCC300BBA4AA /* SimPickerViewCell.xib */; };
+		E2BCC44D1A6DFF32005665D3 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2BCC44C1A6DFF32005665D3 /* Readme.txt */; };
 		E2C3A2BF1A53C60C00D2515F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2BE1A53C60C00D2515F /* main.m */; };
 		E2C3A2C21A53C60C00D2515F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2C11A53C60C00D2515F /* AppDelegate.m */; };
 		E2C3A2C51A53C60C00D2515F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3A2C41A53C60C00D2515F /* ViewController.m */; };
@@ -34,6 +35,7 @@
 		E275B8011A53FCC300BBA4AA /* SimPickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimPickerViewCell.h; sourceTree = "<group>"; };
 		E275B8021A53FCC300BBA4AA /* SimPickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimPickerViewCell.m; sourceTree = "<group>"; };
 		E275B8031A53FCC300BBA4AA /* SimPickerViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimPickerViewCell.xib; sourceTree = "<group>"; };
+		E2BCC44C1A6DFF32005665D3 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
 		E2C3A2B91A53C60C00D2515F /* SimPickerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimPickerView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C3A2BD1A53C60C00D2515F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2C3A2BE1A53C60C00D2515F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				E2C3A2C91A53C60C00D2515F /* Images.xcassets */,
 				E2C3A2CB1A53C60C00D2515F /* LaunchScreen.xib */,
 				E2C3A2BC1A53C60C00D2515F /* Supporting Files */,
+				E2BCC44C1A6DFF32005665D3 /* Readme.txt */,
 			);
 			path = SimPickerView;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				E275B8051A53FCC300BBA4AA /* SimPickerViewCell.xib in Resources */,
 				E2C3A2C81A53C60C00D2515F /* Main.storyboard in Resources */,
 				E2C3A2CD1A53C60C00D2515F /* LaunchScreen.xib in Resources */,
+				E2BCC44D1A6DFF32005665D3 /* Readme.txt in Resources */,
 				E2C3A2CA1A53C60C00D2515F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
