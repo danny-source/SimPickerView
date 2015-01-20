@@ -54,14 +54,8 @@
     UINib *nib = [UINib nibWithNibName: @"SimPickerViewCell" bundle: nil];
     [_collectionView registerNib: nib forCellWithReuseIdentifier: CellID];
 
-    [self initFocusGlass];
-
-    self.buttonDisclosure = [[UIButton alloc] init];
-    self.buttonDisclosure.frame = CGRectMake(0, 0, 40, 40);
-    [self.buttonDisclosure addTarget: self action: @selector(buttonDisclosurePressed:) forControlEvents:UIControlEventTouchUpInside];
-    UIImage *image = [UIImage imageNamed: @"arrow-disclosure"];
-    [self.buttonDisclosure setImage: image forState: UIControlStateNormal];
-
+    [self addSubview: [self makeFocusGlass]];
+    self.buttonDisclosure = [self makeButtonDisclosure];
 }
 
 - (void)layoutSubviews
@@ -74,15 +68,25 @@
 
 }
 
-- (void)initFocusGlass
+- (UIImageView *)makeFocusGlass
 {
     NSInteger emptyItemSpaces = self.DisplayedItems / 2;
     CGRect focusPlaceholder = CGRectInset(self.collectionView.frame, 0, (self.CellHeight + self.MinLineSpacing) * emptyItemSpaces);
 
-    self.focusImageView = [[UIImageView alloc] initWithFrame: focusPlaceholder];
-    self.focusImageView.image = [UIImage imageNamed: @"glass"];
-    [self addSubview: self.focusImageView];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame: focusPlaceholder];
+    imageView.image = [UIImage imageNamed: @"glass"];
+    [self addSubview: imageView];
+    return imageView;
+}
 
+- (UIButton *)makeButtonDisclosure
+{
+    UIButton *button = [[UIButton alloc] init];
+    button.frame = CGRectMake(0, 0, 40, 40);
+    [button addTarget: self action: @selector(buttonDisclosurePressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *image = [UIImage imageNamed: @"arrow-disclosure"];
+    [button setImage: image forState: UIControlStateNormal];
+    return button;
 }
 
 #pragma mark - UICollectionViewDataSource
