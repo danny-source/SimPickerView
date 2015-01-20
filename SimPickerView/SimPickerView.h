@@ -32,6 +32,7 @@
 @property CGFloat MinLineSpacing;
 @property (strong, nonatomic) UIButton *buttonDisclosure;
 
+- (void)markFirstDisclosure;
 - (NSIndexPath *)getFocusIndexPath;
 // insert / add / delete
 - (void)deleteRow:(NSInteger)deleteRow;

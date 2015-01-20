@@ -58,15 +58,19 @@
     self.buttonDisclosure = [self makeButtonDisclosure];
 }
 
-- (void)layoutSubviews
+// mark disclosure take effect only when
+// view did appear, must be called
+// from the view controller's viewDidAppear
+
+- (void)markFirstDisclosure
 {
-    [super layoutSubviews];
     static dispatch_once_t once;
     dispatch_once(&once, ^ {
-        [self.collectionView selectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0] animated: NO scrollPosition: UICollectionViewScrollPositionCenteredVertically];
-    });
 
+        [self collectionView: self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
+    });
 }
+
 
 - (UIImageView *)makeFocusGlass
 {
