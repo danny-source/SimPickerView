@@ -12,6 +12,15 @@
 
 #define CellID @"cell"
 
+#pragma mark - private interface
+@interface SimPickerView() {
+
+}
+@property CGPoint offsetBeforeRecording;
+@property BOOL trackingFocusedCell;
+@end
+
+#pragma mark - implementations
 @implementation SimPickerView
 
 
@@ -56,6 +65,7 @@
 
     [self addSubview: [self makeFocusGlass]];
     self.buttonDisclosure = [self makeButtonDisclosure];
+    self.buttonDelete = [self makeButtonDelete];
     self.swipeGesture = [self makeSwipeGestureRecognizer];
 }
 
@@ -95,6 +105,16 @@
     // buttom frame will be setup in [SimPickerViewCell addButton:]
     [button addTarget: self action: @selector(buttonDisclosurePressed:) forControlEvents:UIControlEventTouchUpInside];
     UIImage *image = [UIImage imageNamed: @"arrow-disclosure"];
+    [button setImage: image forState: UIControlStateNormal];
+    return button;
+}
+
+- (UIButton *)makeButtonDelete
+{
+    UIButton *button = [[UIButton alloc] init];
+    // buttom frame will be setup in [SimPickerViewCell addButton:]
+    [button addTarget: self action: @selector(buttonDeletePressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *image = [UIImage imageNamed: @"delete"];
     [button setImage: image forState: UIControlStateNormal];
     return button;
 }
@@ -155,8 +175,8 @@
     [self.collectionView selectItemAtIndexPath: indexPath animated: YES scrollPosition: UICollectionViewScrollPositionCenteredVertically];
 
     SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
-    [cell addButton: self.buttonDisclosure];
-    [cell addGestureRecognizer: self.swipeGesture];
+    [self cleanEventsOnFocusCell: cell];
+    [self setupEventsOnFocusCell: cell];
 
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)]) {
@@ -167,9 +187,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.buttonDisclosure removeFromSuperview];
-
+    SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
+    [self cleanEventsOnFocusCell: cell];
 }
+
 
 - (NSIndexPath *)getLastIndexPath
 {
@@ -238,7 +259,7 @@
     [self insertItem: newItem atRow: row + 1];
 }
 
-#pragma mark - scrolling detection
+#pragma mark - get focus info
 - (NSIndexPath *)getFocusIndexPath
 {
     CGPoint centerPoint = CGPointMake(self.collectionView.frame.size.width / 2 + self.collectionView.contentOffset.x, self.collectionView.frame.size.height /2 + self.collectionView.contentOffset.y);
@@ -252,13 +273,33 @@
 }
 
 #pragma mark - scrolling handlers
+- (CGFloat)yDiff: (CGPoint)point1 and:(CGPoint)point2
+{
+    return ABS(point2.y - point1.y);
+}
+
+- (BOOL)cellScrollOutFocus
+{
+    const CGFloat monitorOffset = _CellHeight/2;
+    return (self.trackingFocusedCell &&
+            [self yDiff: self.offsetBeforeRecording
+                    and: [self.collectionView contentOffset]] > monitorOffset);
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    NSIndexPath *indexPath = [self getFocusIndexPath];
-    SimPickerViewCell *cell = (SimPickerViewCell *) [self.collectionView cellForItemAtIndexPath: indexPath];
-    DMLog(@"begin scrolling from %ld", indexPath.item);
-    [self.buttonDisclosure removeFromSuperview];
-    [cell removeGestureRecognizer: self.swipeGesture];
+    self.trackingFocusedCell = YES;
+    self.offsetBeforeRecording = [self.collectionView contentOffset];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([self cellScrollOutFocus]) {
+        // release buttons
+        [self.buttonDelete removeFromSuperview];
+        [self.buttonDisclosure removeFromSuperview];
+        self.trackingFocusedCell = NO;
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -273,6 +314,21 @@
     [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
 }
 
+#pragma mark - focus cell events setup/clean
+
+- (void)setupEventsOnFocusCell: (SimPickerViewCell *)cell
+{
+    [cell addButton: self.buttonDisclosure];
+    [cell addGestureRecognizer: self.swipeGesture];
+}
+
+- (void)cleanEventsOnFocusCell: (SimPickerViewCell *)cell
+{
+    [self.buttonDisclosure removeFromSuperview];
+    [self.buttonDelete removeFromSuperview];
+    [cell removeGestureRecognizer: self.swipeGesture];
+}
+
 #pragma mark - Target Action
 
 - (IBAction)buttonDisclosurePressed:(id)sender
@@ -283,10 +339,16 @@
 - (IBAction)buttonDeletePressed:(id)sender
 {
     DMLog(@"delete button pressed");
+    NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    [self deleteRow: focusIndexPath.row];
 }
 
 - (IBAction)swipeGestureRecognized:(id)sender
 {
     DMLog(@"swipe gesture catched");
+    [self.buttonDisclosure removeFromSuperview];
+    NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
+    [focusCell addButton: self.buttonDelete];
 }
 @end

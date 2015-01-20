@@ -44,7 +44,7 @@ static NSInteger count = 0;
 {
     NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
 
-    NSString *newItem = [NSString stringWithFormat: @"Ipsum Loram %ld", count];
+    NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", count];
     [self.simPickerView insertItem: newItem atRow: sel.item];
     count++;
 }
@@ -52,7 +52,7 @@ static NSInteger count = 0;
 - (IBAction)onAppend:(id)sender {
     NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
     static NSInteger count = 0;
-    NSString *newItem = [NSString stringWithFormat: @"Ipsum Loram %ld", count];
+    NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", count];
     [self.simPickerView insertItem: newItem afterRow: sel.item];
     count++;
 }

@@ -32,6 +32,7 @@
 @property (strong, nonatomic) id<SimPickerDelegateProtocol> delegate;
 @property CGFloat MinLineSpacing;
 @property (strong, nonatomic) UIButton *buttonDisclosure;
+@property (strong, nonatomic) UIButton *buttonDelete;
 
 - (void)markFirstDisclosure;
 - (NSIndexPath *)getFocusIndexPath;
