@@ -331,21 +331,29 @@
 
 #pragma mark - Target Action
 
-- (IBAction)buttonDisclosurePressed:(id)sender
+- (IBAction)buttonDisclosurePressed:(UIButton *)btn
 {
-    DMLog(@"disclosure button pressed");
+    //DMLog(@"disclosure button pressed");
+    NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    if ([self.delegate respondsToSelector:@selector(buttonDisclosurePressed:onIndex:)]) {
+        [self.delegate buttonDisclosurePressed: btn onIndex: focusIndexPath.item];
+    }
 }
 
-- (IBAction)buttonDeletePressed:(id)sender
+- (IBAction)buttonDeletePressed:(UIButton *)btn
 {
-    DMLog(@"delete button pressed");
+    //DMLog(@"delete button pressed");
     NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    if ([self.delegate respondsToSelector:@selector(buttonDeletePressed:onIndex:)]) {
+        [self.delegate buttonDeletePressed: btn onIndex: focusIndexPath.item];
+    }
     [self deleteRow: focusIndexPath.row];
+
 }
 
 - (IBAction)swipeGestureRecognized:(id)sender
 {
-    DMLog(@"swipe gesture catched");
+    //DMLog(@"swipe gesture catched");
     [self.buttonDisclosure removeFromSuperview];
     NSIndexPath *focusIndexPath = [self getFocusIndexPath];
     SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
