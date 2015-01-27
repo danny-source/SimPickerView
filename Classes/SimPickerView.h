@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SimPickerSupplementary.h"
 
 
 @class SimPickerView;
@@ -22,7 +22,7 @@
 @end
 
 
-@interface SimPickerView : UIView<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface SimPickerView : UIView<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PickerSupplementaryTouch>
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIImageView *focusImageView;
 @property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;

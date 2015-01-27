@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SimPickerSupplementary : UICollectionReusableView
+@protocol PickerSupplementaryTouch <NSObject>
+- (void)getTouchInViewKind:(NSString *)reuseId;
+@end
 
+@interface SimPickerSupplementary : UICollectionReusableView
+@property (nonatomic, weak) UIView<PickerSupplementaryTouch> *touchesEventDelegate;
 @end

@@ -9,7 +9,7 @@
 #import "SimPickerView.h"
 #import "CenterLayout.h"
 #import "SimPickerViewCell.h"
-#import "SimPickerSupplementary.h"
+
 
 #define CellID @"cell"
 #define HeaderID    @"HeaderID"
@@ -167,9 +167,11 @@
     SimPickerSupplementary *supplementaryView = nil;
     if ([kind isEqualToString: UICollectionElementKindSectionHeader]) {
         supplementaryView = [self.collectionView dequeueReusableSupplementaryViewOfKind: kind withReuseIdentifier: HeaderID forIndexPath: indexPath];
+        supplementaryView.touchesEventDelegate = self;
     }
     else if ([kind isEqualToString: UICollectionElementKindSectionFooter]) {
         supplementaryView = [self.collectionView dequeueReusableSupplementaryViewOfKind: kind withReuseIdentifier: FooterID forIndexPath: indexPath];
+        supplementaryView.touchesEventDelegate = self;
     }
     else {
         NSAssert(NO, @"Invalid kind, should not happen");
@@ -372,5 +374,20 @@
     NSIndexPath *focusIndexPath = [self getFocusIndexPath];
     SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
     [focusCell addButton: self.buttonDelete];
+}
+
+// events come from supplementary view
+- (void)getTouchInViewKind:(NSString *)reuseId
+{
+    //DMLog(@"get reuse id = %@", reuseId);
+    if ([reuseId isEqualToString: HeaderID]) {
+        [self collectionView: self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: 0 inSection: 0]];
+    }
+    else if ([reuseId isEqualToString: FooterID]) {
+        [self collectionView: self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
+    }
+    else {
+        NSAssert1(NO, @"invalid reUse ID: %@", reuseId);
+    }
 }
 @end

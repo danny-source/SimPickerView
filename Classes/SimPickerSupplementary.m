@@ -14,4 +14,11 @@
     // Initialization code
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (self.touchesEventDelegate != nil) {
+        [self.touchesEventDelegate getTouchInViewKind: self.reuseIdentifier];
+    }
+
+}
 @end
