@@ -15,8 +15,9 @@
 #endif
 
 @interface CenterLayout : UICollectionViewFlowLayout
+
 @property (atomic, strong) NSMutableDictionary *storedAttributes;
 @property (atomic, strong) NSIndexPath *focusedIndex;
 
-- (instancetype)initWithCellHeight:(CGFloat)cellHeight displayedItems:(NSInteger)displayedItems minimumLineSpacing:(CGFloat)minimumLineSpacing;
+- (instancetype)initWithCellHeight:(CGFloat)cellHeight displayedItems:(NSInteger)displayedItems;
 @end

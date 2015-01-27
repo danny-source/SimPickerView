@@ -9,8 +9,11 @@
 #import "SimPickerView.h"
 #import "CenterLayout.h"
 #import "SimPickerViewCell.h"
+#import "SimPickerSupplementary.h"
 
 #define CellID @"cell"
+#define HeaderID    @"HeaderID"
+#define FooterID    @"FooterID"
 
 #pragma mark - private interface
 @interface SimPickerView() {
@@ -52,7 +55,7 @@
 
     _collectionView = [[UICollectionView alloc]
                        initWithFrame: CGRectMake(0, 0, frame.size.width, frame.size.height)
-                       collectionViewLayout: [[CenterLayout alloc] initWithCellHeight: _CellHeight  displayedItems: _DisplayedItems minimumLineSpacing: _MinLineSpacing]];
+                       collectionViewLayout: [[CenterLayout alloc] initWithCellHeight: _CellHeight  displayedItems: _DisplayedItems]];
 
 
     _collectionView.delegate = self;
@@ -62,6 +65,12 @@
 
     UINib *nib = [UINib nibWithNibName: @"SimPickerViewCell" bundle: nil];
     [_collectionView registerNib: nib forCellWithReuseIdentifier: CellID];
+
+    UINib *suppNib = [UINib nibWithNibName: @"SimPickerHeader" bundle: nil];
+    [_collectionView registerNib: suppNib forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: HeaderID];
+
+    suppNib = [UINib nibWithNibName: @"SimPickerFooter" bundle: nil];
+    [_collectionView registerNib: suppNib forSupplementaryViewOfKind: UICollectionElementKindSectionFooter withReuseIdentifier: FooterID];
 
     [self addSubview: [self makeFocusGlass]];
     self.buttonDisclosure = [self makeButtonDisclosure];
@@ -154,6 +163,20 @@
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    SimPickerSupplementary *supplementaryView = nil;
+    if ([kind isEqualToString: UICollectionElementKindSectionHeader]) {
+        supplementaryView = [self.collectionView dequeueReusableSupplementaryViewOfKind: kind withReuseIdentifier: HeaderID forIndexPath: indexPath];
+    }
+    else if ([kind isEqualToString: UICollectionElementKindSectionFooter]) {
+        supplementaryView = [self.collectionView dequeueReusableSupplementaryViewOfKind: kind withReuseIdentifier: FooterID forIndexPath: indexPath];
+    }
+    else {
+        NSAssert(NO, @"Invalid kind, should not happen");
+    }
+    return supplementaryView;
+}
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

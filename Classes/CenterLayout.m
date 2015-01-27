@@ -26,15 +26,14 @@
     return self;
 }
 
-- (instancetype)initWithCellHeight:(CGFloat)cellHeight displayedItems:(NSInteger)displayedItems minimumLineSpacing:(CGFloat)minimumLineSpacing
+- (instancetype)initWithCellHeight:(CGFloat)cellHeight displayedItems:(NSInteger)displayedItems
 {
     self = [self init];
     if (self) {
         cellHeight_ = cellHeight;
         displayedItems_ = displayedItems;
         emptyItems_ = displayedItems_/2;
-        // item 的間隔, property of parent class
-        self.minimumLineSpacing = minimumLineSpacing;
+        self.minimumLineSpacing = 0;
     }
     return self;
 }
@@ -45,6 +44,8 @@
     // clean out anything we cached previously
     self.storedAttributes = [NSMutableDictionary dictionary];
     // 呼叫 parent，framework 的 prepareLayout 內建是沒有任何動作
+    self.headerReferenceSize = CGSizeMake(self.collectionView.frame.size.width, cellHeight_ * emptyItems_);
+    self.footerReferenceSize = self.headerReferenceSize;
     [super prepareLayout];
 
     // 計算 collection view 的高度
@@ -66,7 +67,6 @@
         //DMLog(@"attributes.frame = (%.2f, %.2f, %.2f, %.2f)", attributes.frame.origin.x, attributes.frame.origin.y, attributes.frame.size.width, attributes.frame.size.height);
         self.storedAttributes[indexPath] = attributes;
     }
-
 }
 
 - (CGSize)collectionViewContentSize
@@ -114,9 +114,17 @@
     NSMutableArray *allItems = [[super layoutAttributesForElementsInRect: rect] mutableCopy];
     [allItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UICollectionViewLayoutAttributes *attributes = obj;
-        UICollectionViewLayoutAttributes *storedAttributes = (UICollectionViewLayoutAttributes *)self.storedAttributes[attributes.indexPath];
-        attributes.frame = storedAttributes.frame;
 
+        if ([[attributes representedElementKind] isEqualToString: UICollectionElementKindSectionHeader]) {
+            DMLog(@"header in rect");
+        }
+        else if ([[attributes representedElementKind] isEqualToString: UICollectionElementKindSectionFooter]) {
+            DMLog(@"footer in rect");
+        }
+        else {
+            UICollectionViewLayoutAttributes *storedAttributes = (UICollectionViewLayoutAttributes *)self.storedAttributes[attributes.indexPath];
+            attributes.frame = storedAttributes.frame;
+        }
         //DMLog(@"rect(%ld) = (%.2f, %.2f, %.2f, %.2f)",attributes.indexPath.item, attributes.frame.origin.x, attributes.frame.origin.y, attributes.frame.size.width, attributes.frame.size.height);
     }];
     return allItems;
