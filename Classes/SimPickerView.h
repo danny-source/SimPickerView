@@ -19,6 +19,8 @@
 - (void)pickerView:(SimPickerView *)pickerView didSelectRow:(NSInteger)row;
 - (void)callbackInsertItem:(id)item atRow:(NSInteger)row;
 - (void)callbackDeleteRow:(NSInteger)deleteRow;
+- (void)buttonDisclosurePressed:(UIButton *)btn onIndex:(NSInteger)index;
+- (void)buttonDeletePressed:(UIButton *)btn onIndex:(NSInteger)index;
 @end
 
 

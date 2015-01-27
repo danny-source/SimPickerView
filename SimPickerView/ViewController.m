@@ -83,4 +83,14 @@ static NSInteger count = 0;
 {
     [self.items removeObjectAtIndex: deleteRow];
 }
+
+- (void)buttonDisclosurePressed:(UIButton *)btn onIndex:(NSInteger)index
+{
+    NSLog(@"disclosure btn pressed on Index %ld", index);
+}
+
+- (void)buttonDeletePressed:(UIButton *)btn onIndex:(NSInteger)index
+{
+    NSLog(@"delete btn pressed on Index %ld", index);
+}
 @end
