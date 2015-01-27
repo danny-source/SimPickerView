@@ -66,10 +66,9 @@
     UINib *nib = [UINib nibWithNibName: @"SimPickerViewCell" bundle: nil];
     [_collectionView registerNib: nib forCellWithReuseIdentifier: CellID];
 
-    UINib *suppNib = [UINib nibWithNibName: @"SimPickerHeader" bundle: nil];
+    UINib *suppNib = [UINib nibWithNibName: @"SimPickerSupplementaryView" bundle: nil];
     [_collectionView registerNib: suppNib forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: HeaderID];
 
-    suppNib = [UINib nibWithNibName: @"SimPickerFooter" bundle: nil];
     [_collectionView registerNib: suppNib forSupplementaryViewOfKind: UICollectionElementKindSectionFooter withReuseIdentifier: FooterID];
 
     [self addSubview: [self makeFocusGlass]];

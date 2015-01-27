@@ -10,7 +10,7 @@
 
 
 @implementation CenterLayout {
-    CGSize contentSize;
+    CGSize contentSize_;
     CGFloat yOffsetForAllItems;
     CGFloat cellHeight_;
     NSInteger displayedItems_;
@@ -41,21 +41,22 @@
 - (void)prepareLayout
 {
     self.itemSize = CGSizeMake(self.collectionView.frame.size.width, cellHeight_);
-    // clean out anything we cached previously
-    self.storedAttributes = [NSMutableDictionary dictionary];
-    // 呼叫 parent，framework 的 prepareLayout 內建是沒有任何動作
     self.headerReferenceSize = CGSizeMake(self.collectionView.frame.size.width, cellHeight_ * emptyItems_);
     self.footerReferenceSize = self.headerReferenceSize;
+
+    // clean out anything we cached previously
+    self.storedAttributes = [NSMutableDictionary dictionary];
+    // 呼叫 parent framework 的 prepareLayout ，內建是沒有任何動作
     [super prepareLayout];
 
     // 計算 collection view 的高度
     NSInteger itemCount = [self.collectionView numberOfItemsInSection:0];
-    CGFloat contentHeight = (itemCount + emptyItems_ * 2) * cellHeight_ + (itemCount + emptyItems_ * 2 - 1) * self.minimumLineSpacing;
+    CGFloat contentHeight = (itemCount + emptyItems_ * 2) * cellHeight_ ;
     // 這個 function 的目的，就是算出 collection view content size ，並算出起始的 item 的 y pos
 
-    contentSize = CGSizeMake(self.collectionView.bounds.size.width, contentHeight);
-    self.collectionView.contentSize = contentSize;
-    yOffsetForAllItems = emptyItems_ * (cellHeight_ + self.minimumLineSpacing);
+    contentSize_ = CGSizeMake(self.collectionView.bounds.size.width, contentHeight);
+    self.collectionView.contentSize = contentSize_;
+    yOffsetForAllItems = emptyItems_ * cellHeight_;
     //DMLog(@"content size = (%f, %f)",contentSize.width, contentSize.height);
 
     // 為每一個 item 設定位置
@@ -71,7 +72,7 @@
 
 - (CGSize)collectionViewContentSize
 {
-    return contentSize;
+    return contentSize_;
 }
 
 
@@ -111,22 +112,11 @@
     rect.origin.y -= yOffsetForAllItems;
     //DMLog(@"range rect = (%.2f, %.2f, %.2f, %.2f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 
-    NSMutableArray *allItems = [[super layoutAttributesForElementsInRect: rect] mutableCopy];
-    [allItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UICollectionViewLayoutAttributes *attributes = obj;
-
-        if ([[attributes representedElementKind] isEqualToString: UICollectionElementKindSectionHeader]) {
-            DMLog(@"header in rect");
-        }
-        else if ([[attributes representedElementKind] isEqualToString: UICollectionElementKindSectionFooter]) {
-            DMLog(@"footer in rect");
-        }
-        else {
-            UICollectionViewLayoutAttributes *storedAttributes = (UICollectionViewLayoutAttributes *)self.storedAttributes[attributes.indexPath];
-            attributes.frame = storedAttributes.frame;
-        }
-        //DMLog(@"rect(%ld) = (%.2f, %.2f, %.2f, %.2f)",attributes.indexPath.item, attributes.frame.origin.x, attributes.frame.origin.y, attributes.frame.size.width, attributes.frame.size.height);
-    }];
+    // 取得當前可見的 rect 內所有的元素：包括 cell 與 supplementary view.
+    // cell 會叫到我們提供的 [layoutAttributesForItemAtIndexPath:].
+    // supplementary view 會使用 super (UICollectionViewFlowLayout) 排好位置的 supplementary view
+    // 所以都不需要額外處理了
+    NSArray *allItems = [super layoutAttributesForElementsInRect: rect];
     return allItems;
 }
 

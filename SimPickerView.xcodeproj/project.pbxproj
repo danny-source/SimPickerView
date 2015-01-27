@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E21CC9F71A77349A00AFB2E0 /* SimPickerSupplementary.m in Sources */ = {isa = PBXBuildFile; fileRef = E21CC9F51A77349A00AFB2E0 /* SimPickerSupplementary.m */; };
-		E21CC9FB1A776BC000AFB2E0 /* SimPickerFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21CC9F91A776BC000AFB2E0 /* SimPickerFooter.xib */; };
-		E21CC9FC1A776BC000AFB2E0 /* SimPickerHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21CC9FA1A776BC000AFB2E0 /* SimPickerHeader.xib */; };
+		E21CC9FE1A77862100AFB2E0 /* SimPickerSupplementaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21CC9FD1A77862100AFB2E0 /* SimPickerSupplementaryView.xib */; };
 		E29828511A6F580C00161719 /* CenterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E298284B1A6F580C00161719 /* CenterLayout.m */; };
 		E29828521A6F580C00161719 /* SimPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E298284D1A6F580C00161719 /* SimPickerView.m */; };
 		E29828531A6F580C00161719 /* SimPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E298284F1A6F580C00161719 /* SimPickerViewCell.m */; };
@@ -37,8 +36,7 @@
 /* Begin PBXFileReference section */
 		E21CC9F41A77349A00AFB2E0 /* SimPickerSupplementary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimPickerSupplementary.h; sourceTree = "<group>"; };
 		E21CC9F51A77349A00AFB2E0 /* SimPickerSupplementary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimPickerSupplementary.m; sourceTree = "<group>"; };
-		E21CC9F91A776BC000AFB2E0 /* SimPickerFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimPickerFooter.xib; sourceTree = "<group>"; };
-		E21CC9FA1A776BC000AFB2E0 /* SimPickerHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimPickerHeader.xib; sourceTree = "<group>"; };
+		E21CC9FD1A77862100AFB2E0 /* SimPickerSupplementaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimPickerSupplementaryView.xib; sourceTree = "<group>"; };
 		E298284A1A6F580C00161719 /* CenterLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterLayout.h; sourceTree = "<group>"; };
 		E298284B1A6F580C00161719 /* CenterLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterLayout.m; sourceTree = "<group>"; };
 		E298284C1A6F580C00161719 /* SimPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimPickerView.h; sourceTree = "<group>"; };
@@ -123,10 +121,9 @@
 				E2C3A2C41A53C60C00D2515F /* ViewController.m */,
 				E2C3A2C61A53C60C00D2515F /* Main.storyboard */,
 				E2C3A2C91A53C60C00D2515F /* Images.xcassets */,
-				E21CC9F91A776BC000AFB2E0 /* SimPickerFooter.xib */,
-				E21CC9FA1A776BC000AFB2E0 /* SimPickerHeader.xib */,
 				E2C3A2CB1A53C60C00D2515F /* LaunchScreen.xib */,
 				E29828551A6F816900161719 /* SimPickerViewCell.xib */,
+				E21CC9FD1A77862100AFB2E0 /* SimPickerSupplementaryView.xib */,
 				E2C3A2BC1A53C60C00D2515F /* Supporting Files */,
 				E2BCC44C1A6DFF32005665D3 /* Readme.txt */,
 			);
@@ -240,12 +237,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E21CC9FB1A776BC000AFB2E0 /* SimPickerFooter.xib in Resources */,
-				E21CC9FC1A776BC000AFB2E0 /* SimPickerHeader.xib in Resources */,
 				E2C3A2C81A53C60C00D2515F /* Main.storyboard in Resources */,
 				E29828561A6F816900161719 /* SimPickerViewCell.xib in Resources */,
 				E2C3A2CD1A53C60C00D2515F /* LaunchScreen.xib in Resources */,
 				E2BCC44D1A6DFF32005665D3 /* Readme.txt in Resources */,
+				E21CC9FE1A77862100AFB2E0 /* SimPickerSupplementaryView.xib in Resources */,
 				E2C3A2CA1A53C60C00D2515F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
