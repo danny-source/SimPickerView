@@ -74,14 +74,16 @@ static NSInteger count = 0;
     NSLog(@"did select row %ld", row);
 }
 
-- (void)callbackInsertItem:(id)item atRow:(NSInteger)row
+- (BOOL)callbackInsertItem:(id)item atRow:(NSInteger)row
 {
     [self.items insertObject:item atIndex:row];
+    return true;
 }
 
-- (void)callbackDeleteRow:(NSInteger)deleteRow
+- (BOOL)callbackDeleteRow:(NSInteger)deleteRow
 {
     [self.items removeObjectAtIndex: deleteRow];
+    return true;
 }
 
 - (void)buttonDisclosurePressed:(UIButton *)btn onIndex:(NSInteger)index

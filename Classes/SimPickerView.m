@@ -251,31 +251,31 @@
     }
 
     // Delete the item from the data source.
-    [self.delegate callbackDeleteRow: row];
-    // Now delete the items from the collection view.
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
-    [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-
-    if ([indexPath isEqual: last]) {
-        // the indexPath has just been deleted, refetch lastIndexPath
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
+    if ([self.delegate callbackDeleteRow: row]) {
+        // Now delete the items from the collection view.
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
+        [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+        if ([indexPath isEqual: last]) {
+            // the indexPath has just been deleted, refetch lastIndexPath
+            [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
+        }
+        else {
+            [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+        }
     }
-    else {
-        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
-    }
-
 }
 
 
 - (void)insertItem:(id)newItem atRow:(NSInteger)row
 {
     // insert item to data source
-    [self.delegate callbackInsertItem: newItem atRow: row];
-    // Now add the items to the collection view.
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
-    [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+    if ([self.delegate callbackInsertItem: newItem atRow: row]) {
+        // Now add the items to the collection view.
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
+        [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
 
-    [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+        [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
+    }
 }
 
 - (void)insertItem:(id)newItem afterRow:(NSInteger)row
