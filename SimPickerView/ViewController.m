@@ -59,6 +59,39 @@ static NSInteger count = 0;
 }
 
 #pragma mark - delegate
+- (BOOL)shouldShowDeleteButtonOnIndex:(NSInteger)index
+{
+    NSString *msg;
+    BOOL result = YES;
+
+    if (index < 4) {
+        msg = @"The first 4 elements can NOT be deleted";
+        result = NO;
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"SimPicker Demo"
+                                              message:msg
+                                              preferredStyle:UIAlertControllerStyleAlert];
+
+
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"OK action");
+                                   }];
+
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else {
+        result = YES;
+    }
+
+
+    return result;
+}
+
 - (NSInteger)numberOfRowsInPickerView:(SimPickerView *)pickerView
 {
     return self.items.count;

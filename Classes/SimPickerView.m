@@ -378,10 +378,13 @@
 - (IBAction)swipeGestureRecognized:(id)sender
 {
     //DMLog(@"swipe gesture catched");
-    [self.buttonDisclosure removeFromSuperview];
     NSIndexPath *focusIndexPath = [self getFocusIndexPath];
-    SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
-    [focusCell addButton: self.buttonDelete];
+    if ( [self.delegate respondsToSelector: @selector(shouldShowDeleteButtonOnIndex:)] &&
+        [self.delegate shouldShowDeleteButtonOnIndex: focusIndexPath.item] ) {
+        SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
+        [self.buttonDisclosure removeFromSuperview];
+        [focusCell addButton: self.buttonDelete];
+    }
 }
 
 // events come from supplementary view

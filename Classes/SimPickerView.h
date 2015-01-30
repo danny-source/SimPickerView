@@ -23,6 +23,7 @@
 - (BOOL)callbackDeleteRow:(NSInteger)deleteRow;
 - (void)buttonDisclosurePressed:(UIButton *)btn onIndex:(NSInteger)index;
 - (void)buttonDeletePressed:(UIButton *)btn onIndex:(NSInteger)index;
+- (BOOL)shouldShowDeleteButtonOnIndex:(NSInteger)index;
 @end
 
 
