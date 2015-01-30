@@ -45,7 +45,7 @@ static NSInteger count = 0;
 {
     NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
 
-    NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", count];
+    NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", (long)count];
     [self.simPickerView insertItem: newItem atRow: sel.item];
     count++;
 }
@@ -53,7 +53,7 @@ static NSInteger count = 0;
 - (IBAction)onAppend:(id)sender {
     NSIndexPath *sel = [self.simPickerView getFocusIndexPath];
     static NSInteger count = 0;
-    NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", count];
+    NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", (long)count];
     [self.simPickerView insertItem: newItem afterRow: sel.item];
     count++;
 }
@@ -71,7 +71,7 @@ static NSInteger count = 0;
 
 -(void)pickerView:(SimPickerView *)pickerView didSelectRow:(NSInteger)row
 {
-    NSLog(@"did select row %ld", row);
+    NSLog(@"did select row %ld", (long)row);
 }
 
 - (BOOL)callbackInsertItem:(id)item atRow:(NSInteger)row
@@ -88,11 +88,11 @@ static NSInteger count = 0;
 
 - (void)buttonDisclosurePressed:(UIButton *)btn onIndex:(NSInteger)index
 {
-    NSLog(@"disclosure btn pressed on Index %ld", index);
+    NSLog(@"disclosure btn pressed on Index %ld", (long)index);
 }
 
 - (void)buttonDeletePressed:(UIButton *)btn onIndex:(NSInteger)index
 {
-    NSLog(@"delete btn pressed on Index %ld", index);
+    NSLog(@"delete btn pressed on Index %ld", (long)index);
 }
 @end

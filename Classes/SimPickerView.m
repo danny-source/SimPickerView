@@ -242,7 +242,7 @@
     // check range
     if (row > last.item ||
         row < 0) {
-        DMLog(@"delete indexPath error : %ld", row);
+        DMLog(@"delete indexPath error : %ld", (long)row);
         return;
     }
 
