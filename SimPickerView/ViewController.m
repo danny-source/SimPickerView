@@ -128,4 +128,23 @@ static NSInteger count = 0;
 {
     NSLog(@"delete btn pressed on Index %ld", (long)index);
 }
+- (IBAction)onNextItem:(id)sender
+{
+    NSInteger row = [[self.simPickerView getFocusIndexPath] item];
+    row = row + 1;
+    if (row < self.items.count) {
+        [self.simPickerView didSelectItemAtRow: row];
+    }
+}
+
+- (IBAction)onPreviousItem:(id)sender
+{
+    NSInteger row = [[self.simPickerView getFocusIndexPath] item];
+    row = row - 1;
+    if (row >= 0) {
+        [self.simPickerView didSelectItemAtRow: row];
+    }
+
+}
+
 @end

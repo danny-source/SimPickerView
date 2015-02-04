@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -51,16 +51,38 @@
                                     <action selector="onDelete:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nvg-3E-d1g"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YJD-Zg-Fr0">
+                                <rect key="frame" x="204" y="37" width="67" height="30"/>
+                                <state key="normal" title="Next Item">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onNextItem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dkt-dx-bBV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wxf-jn-2ow">
+                                <rect key="frame" x="204" y="101" width="94" height="30"/>
+                                <state key="normal" title="Previous Item">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onPreviousItem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EHo-Ib-JXC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ig4-an-GHJ" firstAttribute="top" secondItem="YJD-Zg-Fr0" secondAttribute="top" id="0Cn-zR-Mxu"/>
+                            <constraint firstItem="YJD-Zg-Fr0" firstAttribute="leading" secondItem="ig4-an-GHJ" secondAttribute="trailing" constant="104" id="7L4-PA-ryV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YzX-YB-CU8" secondAttribute="trailing" constant="-16" id="7se-Dq-3cf"/>
                             <constraint firstItem="ETL-lm-DiD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="E6G-bt-bq5"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="J5x-Mw-B95"/>
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="Mbr-cg-GwI"/>
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="17" id="TsR-Pj-S6p"/>
+                            <constraint firstItem="Wxf-jn-2ow" firstAttribute="leading" secondItem="YJD-Zg-Fr0" secondAttribute="leading" id="eVh-ZO-WOU"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="235" id="gDs-fF-nv5"/>
-                            <constraint firstItem="ETL-lm-DiD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="81" id="yp2-rG-lIV"/>
+                            <constraint firstItem="Wxf-jn-2ow" firstAttribute="top" secondItem="ETL-lm-DiD" secondAttribute="top" id="khl-ib-P3a"/>
+                            <constraint firstItem="ETL-lm-DiD" firstAttribute="top" secondItem="ig4-an-GHJ" secondAttribute="bottom" constant="34" id="uLL-wK-v2t"/>
                         </constraints>
                     </view>
                     <connections>

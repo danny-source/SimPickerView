@@ -39,6 +39,8 @@
 @property (strong, nonatomic) UIButton *buttonDisclosure;
 @property (strong, nonatomic) UIButton *buttonDelete;
 
+// wrapper interface
+- (void)didSelectItemAtRow:(NSInteger)row;
 - (void)markFirstDisclosure;
 - (NSIndexPath *)getFocusIndexPath;
 // insert / add / delete

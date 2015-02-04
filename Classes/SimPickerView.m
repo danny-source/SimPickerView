@@ -401,4 +401,10 @@
         NSAssert1(NO, @"invalid reUse ID: %@", reuseId);
     }
 }
+
+#pragma mark - wrapper interface
+- (void)didSelectItemAtRow:(NSInteger)row
+{
+    [self collectionView: self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: row inSection: 0]];
+}
 @end
