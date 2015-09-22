@@ -110,6 +110,10 @@
 {
     // 銜接上一個 rect 不然會有漏算的 cell
     rect.origin.y -= yOffsetForAllItems;
+
+    // bug fix: 但不能小於零, 會畫出空的 cell
+    if (rect.origin.y < 0.0f) rect.origin.y = 0.0f;
+
     //DMLog(@"range rect = (%.2f, %.2f, %.2f, %.2f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 
     // 取得當前可見的 rect 內所有的元素：包括 cell 與 supplementary view.
