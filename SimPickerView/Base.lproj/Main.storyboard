@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -18,14 +19,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YzX-YB-CU8" customClass="SimPickerView">
-                                <rect key="frame" x="0.0" y="255" width="600" height="254"/>
+                                <rect key="frame" x="4" y="255" width="592" height="254"/>
+                                <animations/>
                                 <color key="backgroundColor" red="0.78020438762626265" green="0.78020438762626265" blue="0.78020438762626265" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="254" id="Lti-va-Daa"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ig4-an-GHJ">
-                                <rect key="frame" x="37" y="37" width="63" height="30"/>
+                                <rect key="frame" x="41" y="37" width="62" height="30"/>
+                                <animations/>
                                 <state key="normal" title="Add Item">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -33,17 +36,9 @@
                                     <action selector="onAdd:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zj9-n3-DSB"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="di7-Ri-kaS">
-                                <rect key="frame" x="37" y="162" width="89" height="30"/>
-                                <state key="normal" title="Append Item">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onAppend:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZLd-68-iAY"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ETL-lm-DiD">
-                                <rect key="frame" x="37" y="101" width="79" height="30"/>
+                                <rect key="frame" x="41" y="101" width="79" height="30"/>
+                                <animations/>
                                 <state key="normal" title="Delete Item">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -52,7 +47,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YJD-Zg-Fr0">
-                                <rect key="frame" x="204" y="37" width="67" height="30"/>
+                                <rect key="frame" x="207" y="37" width="66" height="30"/>
+                                <animations/>
                                 <state key="normal" title="Next Item">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -61,7 +57,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wxf-jn-2ow">
-                                <rect key="frame" x="204" y="101" width="94" height="30"/>
+                                <rect key="frame" x="207" y="101" width="93" height="30"/>
+                                <animations/>
                                 <state key="normal" title="Previous Item">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -69,19 +66,47 @@
                                     <action selector="onPreviousItem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EHo-Ib-JXC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6A8-Q0-VY4">
+                                <rect key="frame" x="188" y="162" width="165" height="30"/>
+                                <animations/>
+                                <state key="normal" title="reload and select item 0">
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onReloadAndSelectItem0:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f9F-GT-c3I"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="di7-Ri-kaS">
+                                <rect key="frame" x="41" y="162" width="89" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="jA8-KN-TGl"/>
+                                </constraints>
+                                <state key="normal" title="Append Item">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onAppend:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZLd-68-iAY"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="top" secondItem="YJD-Zg-Fr0" secondAttribute="top" id="0Cn-zR-Mxu"/>
                             <constraint firstItem="YJD-Zg-Fr0" firstAttribute="leading" secondItem="ig4-an-GHJ" secondAttribute="trailing" constant="104" id="7L4-PA-ryV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YzX-YB-CU8" secondAttribute="trailing" constant="-16" id="7se-Dq-3cf"/>
                             <constraint firstItem="ETL-lm-DiD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="E6G-bt-bq5"/>
+                            <constraint firstItem="di7-Ri-kaS" firstAttribute="baseline" secondItem="6A8-Q0-VY4" secondAttribute="baseline" id="EXy-1a-6Al"/>
+                            <constraint firstItem="di7-Ri-kaS" firstAttribute="leading" secondItem="ETL-lm-DiD" secondAttribute="leading" id="IsT-vz-B5U"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="J5x-Mw-B95"/>
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="21" id="Mbr-cg-GwI"/>
                             <constraint firstItem="ig4-an-GHJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="17" id="TsR-Pj-S6p"/>
                             <constraint firstItem="Wxf-jn-2ow" firstAttribute="leading" secondItem="YJD-Zg-Fr0" secondAttribute="leading" id="eVh-ZO-WOU"/>
+                            <constraint firstItem="6A8-Q0-VY4" firstAttribute="leading" secondItem="di7-Ri-kaS" secondAttribute="trailing" constant="58" id="fQV-Px-pXv"/>
                             <constraint firstItem="YzX-YB-CU8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="235" id="gDs-fF-nv5"/>
                             <constraint firstItem="Wxf-jn-2ow" firstAttribute="top" secondItem="ETL-lm-DiD" secondAttribute="top" id="khl-ib-P3a"/>
+                            <constraint firstItem="6A8-Q0-VY4" firstAttribute="top" secondItem="Wxf-jn-2ow" secondAttribute="bottom" constant="31" id="qoX-g9-vAd"/>
                             <constraint firstItem="ETL-lm-DiD" firstAttribute="top" secondItem="ig4-an-GHJ" secondAttribute="bottom" constant="34" id="uLL-wK-v2t"/>
                         </constraints>
                     </view>

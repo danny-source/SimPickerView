@@ -24,13 +24,19 @@
 - (void)buttonDisclosurePressed:(UIButton *)btn onIndex:(NSInteger)index;
 - (void)buttonDeletePressed:(UIButton *)btn onIndex:(NSInteger)index;
 - (BOOL)shouldShowDeleteButtonOnIndex:(NSInteger)index;
+@optional
+- (void)longTouchPressedOnIndex:(NSInteger)index;
 @end
 
 
 @interface SimPickerView : UIView<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PickerSupplementaryTouch>
+//typedef int (^completeion)(void);
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIImageView *focusImageView;
-@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;
+@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGestureDirectionRight;
+@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGestureDirectionLeft;
+@property (strong, nonatomic) UILongPressGestureRecognizer *longGesture;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 // properties to define the look of pickerview
 @property CGFloat CellHeight;
 @property NSInteger DisplayedItems;
@@ -47,6 +53,7 @@
 - (void)deleteRow:(NSInteger)deleteRow;
 - (void)insertItem:(id)newItem atRow:(NSInteger)row;
 - (void)insertItem:(id)newItem afterRow:(NSInteger)row;
-- (void)reloadData;
+//- (void)reloadData;
+- (void)reloadDataWithCompleteion:(void (^)(void))completeion;
 @end
 

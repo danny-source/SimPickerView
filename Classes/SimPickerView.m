@@ -17,7 +17,9 @@
 
 #pragma mark - private interface
 @interface SimPickerView() {
-
+    BOOL _isScrolling;
+    NSInteger _lastSelectIndex;
+    BOOL _needForceDidSelectRow;
 }
 @property CGPoint offsetBeforeRecording;
 @property BOOL trackingFocusedCell;
@@ -70,11 +72,18 @@
     [_collectionView registerNib: suppNib forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: HeaderID];
 
     [_collectionView registerNib: suppNib forSupplementaryViewOfKind: UICollectionElementKindSectionFooter withReuseIdentifier: FooterID];
+    [_collectionView addGestureRecognizer:[self makeTapGestureRecognizer]];//利用Tap來捲動PickerView 上/下
 
     [self addSubview: [self makeFocusGlass]];
     self.buttonDisclosure = [self makeButtonDisclosure];
     self.buttonDelete = [self makeButtonDelete];
-    self.swipeGesture = [self makeSwipeGestureRecognizer];
+    self.swipeGestureDirectionRight = [self makeSwipeGestureRecognizerDirectionRight];
+    self.swipeGestureDirectionLeft = [self makeSwipeGestureRecognizerDirectionLeft];
+    self.longGesture = [self makeLongGestureRecognizer];
+    self.tapGesture = [self makeTapGestureRecognizerForCell];//註冊焦點中的Cell的Tap Gesture，並且忽略它
+    _isScrolling = NO;
+    _lastSelectIndex = 0;
+    _needForceDidSelectRow = NO;
 }
 
 // mark disclosure take effect only when
@@ -90,9 +99,40 @@
     });
 }
 
-- (UISwipeGestureRecognizer *)makeSwipeGestureRecognizer
+- (UISwipeGestureRecognizer *)makeSwipeGestureRecognizerDirectionRight
 {
     UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGestureRecognized:)];
+    [gesture setDirection:UISwipeGestureRecognizerDirectionRight];
+    return gesture;
+}
+- (UISwipeGestureRecognizer *)makeSwipeGestureRecognizerDirectionLeft
+{
+    UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGestureRecognized:)];
+    [gesture setDirection:UISwipeGestureRecognizerDirectionLeft];
+    return gesture;
+}
+
+- (UILongPressGestureRecognizer *)makeLongGestureRecognizer
+{
+    UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGestureRecognized:)];
+    [gesture setMinimumPressDuration:1];
+    return gesture;
+}
+
+- (UITapGestureRecognizer *)makeTapGestureRecognizer
+{
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
+    return gesture;
+}
+- (UITapGestureRecognizer *)makeTapGestureRecognizerForCell
+{
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizedForCell:)];
+    return gesture;
+}
+
+- (UIGestureRecognizer *)makeGestureRecognizer
+{
+    UIGestureRecognizer *gesture = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(allGestureRecognized:)];
     return gesture;
 }
 
@@ -149,7 +189,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SimPickerViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier: CellID forIndexPath:indexPath];
-
     cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(pickerView:titleForRow:)]) {
@@ -191,23 +230,40 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //DMLog(@"select item %ld", (long)indexPath.item);
+
     [[self.collectionView visibleCells] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         SimPickerViewCell *cell = (SimPickerViewCell *)obj;
         cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     }];
-
-    [self.collectionView selectItemAtIndexPath: indexPath animated: YES scrollPosition: UICollectionViewScrollPositionCenteredVertically];
-
-    SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
-    [self cleanEventsOnFocusCell: cell];
-    [self setupEventsOnFocusCell: cell];
-
-    if (self.delegate &&
-        [self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)]) {
-        [self.delegate pickerView: self didSelectRow: indexPath.item];
+    NSInteger focusIndex = [self getFocusIndexPath].row;
+    //假如正在連續Tap 或 focusIndex != idnexPath.row 才能使用程式去捲動PickerView
+    if (focusIndex != indexPath.row) {
+        [self.collectionView selectItemAtIndexPath: indexPath animated: YES scrollPosition: UICollectionViewScrollPositionCenteredVertically];
+//        NSLog(@"=x=");
+    }else {
+        [self.collectionView selectItemAtIndexPath: indexPath animated: NO scrollPosition: UICollectionViewScrollPositionCenteredVertically];
+//        NSLog(@"===");
     }
-}
+    SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: indexPath];
+    //使用動畫捲動時，在還未定位到Item位置時所取到的cell = Nil(因未還進入視野中不會有cell)
+    //focusIndex 與程式指定的 indexPath.row 相同(代表動畫已經滑到該指定位置)時再觸發delegate didSelectRow
+    if ((cell != Nil) && (focusIndex == indexPath.row)){
+        [self cleanEventsOnFocusCell: cell];
+        [self setupEventsOnFocusCell: cell];
+        if (self.delegate &&
+            [self.delegate respondsToSelector:@selector(pickerView:didSelectRow:)]) {
+            if (_needForceDidSelectRow || (_lastSelectIndex != focusIndex)) {
+                _needForceDidSelectRow = NO;
+                [self.delegate pickerView: self didSelectRow: indexPath.item];
+            }
+        }
+        _lastSelectIndex = indexPath.row;
+    }else {
+//        DMLog(@"didSelectItemAtIndexPath:cell is nil");
+    }
 
+
+}
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -223,13 +279,20 @@
 }
 
 
-- (void)reloadData
+- (void)reloadDataWithCompleteion:(void (^)(void))completeion;
 {
-    [self.collectionView reloadData];
-    NSIndexPath *focusedIndexPath = [self getFocusIndexPath];
-    DMLog(@"%@", focusedIndexPath);
-    SimPickerViewCell *cell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusedIndexPath];
-    [cell addButton: self.buttonDisclosure];
+    [[self.collectionView visibleCells] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        SimPickerViewCell *cell = (SimPickerViewCell *)obj;
+        [self cleanEventsOnFocusCell:cell];
+    }];
+    [self.collectionView performBatchUpdates:^{
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    } completion:^(BOOL finished) {
+        NSIndexPath *focusedIndexPath = [self getFocusIndexPath];
+        [self didSelectItemAtRowInternal:focusedIndexPath.row];
+        completeion();
+    }];
+
 }
 
 // remove comment if we want have a chance
@@ -255,6 +318,7 @@
         // Now delete the items from the collection view.
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
         [self.collectionView deleteItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
+        _needForceDidSelectRow = YES;
         if ([indexPath isEqual: last]) {
             // the indexPath has just been deleted, refetch lastIndexPath
             [self collectionView:self.collectionView didSelectItemAtIndexPath: [self getLastIndexPath]];
@@ -273,7 +337,7 @@
         // Now add the items to the collection view.
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem: row inSection: 0];
         [self.collectionView insertItemsAtIndexPaths: [NSArray arrayWithObjects: indexPath, nil]];
-
+        _needForceDidSelectRow = YES;
         [self collectionView:self.collectionView didSelectItemAtIndexPath: indexPath];
     }
 }
@@ -314,6 +378,7 @@
 {
     self.trackingFocusedCell = YES;
     self.offsetBeforeRecording = [self.collectionView contentOffset];
+//    NSLog(@"scrollViewWillBeginDragging");
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -324,33 +389,51 @@
         [self.buttonDisclosure removeFromSuperview];
         self.trackingFocusedCell = NO;
     }
+    _isScrolling = YES;
+//    NSLog(@"scrollViewDidScroll");
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (!decelerate) {
         [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
+//        NSLog(@"scrollViewDidEndDragging-decelerate");
     }
+//    NSLog(@"scrollViewDidEndDragging");
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self collectionView: self.collectionView didSelectItemAtIndexPath: [self predictedFocusIndexPath]];
+    _isScrolling = NO;
 }
 
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    _isScrolling = NO;
+    [self setUserInteractionEnabled:YES];
+    [self collectionView: self.collectionView didSelectItemAtIndexPath: [self getFocusIndexPath]];
+//    NSLog(@"scrollViewDidEndScrollingAnimation");
+}
 #pragma mark - focus cell events setup/clean
 
 - (void)setupEventsOnFocusCell: (SimPickerViewCell *)cell
 {
     [cell addButton: self.buttonDisclosure];
-    [cell addGestureRecognizer: self.swipeGesture];
+    [cell addGestureRecognizer: self.swipeGestureDirectionRight];
+    [cell addGestureRecognizer: self.swipeGestureDirectionLeft];
+    [cell addGestureRecognizer: self.longGesture];
+    [cell addGestureRecognizer: self.tapGesture];
 }
 
 - (void)cleanEventsOnFocusCell: (SimPickerViewCell *)cell
 {
     [self.buttonDisclosure removeFromSuperview];
     [self.buttonDelete removeFromSuperview];
-    [cell removeGestureRecognizer: self.swipeGesture];
+    [cell removeGestureRecognizer: self.swipeGestureDirectionRight];
+    [cell removeGestureRecognizer: self.swipeGestureDirectionLeft];
+    [cell removeGestureRecognizer: self.longGesture];
+    [cell removeGestureRecognizer: self.tapGesture];
 }
 
 #pragma mark - Target Action
@@ -375,16 +458,78 @@
 
 }
 
-- (IBAction)swipeGestureRecognized:(id)sender
+- (IBAction)swipeGestureRecognized:(UISwipeGestureRecognizer *)gestureRecognizer
 {
-    //DMLog(@"swipe gesture catched");
+//    DMLog(@"swipeGestureRecognized direction:%ld",(long)gestureRecognizer.direction);
+
     NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
     if ( [self.delegate respondsToSelector: @selector(shouldShowDeleteButtonOnIndex:)] &&
-        [self.delegate shouldShowDeleteButtonOnIndex: focusIndexPath.item] ) {
-        SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
+        [self.delegate shouldShowDeleteButtonOnIndex: focusIndexPath.item] &&
+        (gestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight)
+        ) {
         [self.buttonDisclosure removeFromSuperview];
         [focusCell addButton: self.buttonDelete];
+    }else {
+        [self.buttonDelete removeFromSuperview];
+        [focusCell addButton: self.buttonDisclosure];
     }
+}
+
+- (void)longGestureRecognized:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan) {
+        return;
+    }
+    NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    if ( [self.delegate respondsToSelector: @selector(longTouchPressedOnIndex:)]) {
+        [self.delegate longTouchPressedOnIndex: focusIndexPath.item];
+    }
+}
+
+- (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer
+{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    NSIndexPath *focusIndexPath = [self getFocusIndexPath];
+    SimPickerViewCell *focusCell = (SimPickerViewCell *)[self.collectionView cellForItemAtIndexPath: focusIndexPath];
+    if (focusCell == Nil) {
+        return;
+    }
+    CGPoint centerPoint = self.collectionView.center;
+    CGFloat yUP = centerPoint.y - (focusCell.frame.size.height/2) - 2;
+    CGFloat yDown = yUP + focusCell.frame.size.height + 2;
+    CGFloat yNow = point.y;
+    NSInteger rowVariable = 0;
+    if (yNow < yUP) {
+        rowVariable = -1;
+    }
+    if (yNow > yDown) {
+        rowVariable = 1;
+    }
+
+    NSInteger row = focusIndexPath.row;
+    NSInteger numberOfRow = 0;
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(numberOfRowsInPickerView:)])
+    {
+        numberOfRow = [self.delegate numberOfRowsInPickerView: self];
+        NSInteger nextRow = MAX(0,MIN(row + rowVariable, numberOfRow -1));
+        if (nextRow != focusIndexPath.row) {
+            _needForceDidSelectRow = YES;
+            [self setUserInteractionEnabled:NO];
+            [self didSelectItemAtRowInternal:nextRow];
+        }
+    }
+
+}
+- (void)tapGestureRecognizedForCell:(UITapGestureRecognizer *)gestureRecognizer
+{
+//    NSLog(@"tapGestureRecognizedForCell");
+}
+
+- (void)allGestureRecognized:(UIGestureRecognizer *)gestureRecognizer
+{
+//    NSLog(@"allGestureRecognized");
 }
 
 // events come from supplementary view
@@ -404,6 +549,12 @@
 
 #pragma mark - wrapper interface
 - (void)didSelectItemAtRow:(NSInteger)row
+{
+    _needForceDidSelectRow = YES;
+    [self collectionView: self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: row inSection: 0]];
+}
+
+- (void)didSelectItemAtRowInternal:(NSInteger)row
 {
     [self collectionView: self.collectionView didSelectItemAtIndexPath: [NSIndexPath indexPathForItem: row inSection: 0]];
 }

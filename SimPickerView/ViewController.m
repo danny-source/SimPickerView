@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.items = [NSMutableArray arrayWithObjects:@"item 0", @"item 1", @"item 2", @"item 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
+    self.items = [NSMutableArray arrayWithObjects:@"項目 0", @"項目 1", @"项目 2", @"一つ書き 3", @"item 4", @"item 5", @"item 6", @"item 7", @"item 8", @"item 9", @"item 10", @"item 11", @"item 12" , @"item 13", @"item 14", @"item 15", @"item 16", nil];
 
     self.simPickerView.delegate = self;
     // Do any additional setup after loading the view, typically from a nib.
@@ -48,6 +48,9 @@ static NSInteger count = 0;
     NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", (long)count];
     [self.simPickerView insertItem: newItem atRow: sel.item];
     count++;
+    [self.simPickerView reloadDataWithCompleteion:^{
+        [self.simPickerView didSelectItemAtRow:2];
+    }];
 }
 
 - (IBAction)onAppend:(id)sender {
@@ -56,6 +59,13 @@ static NSInteger count = 0;
     NSString *newItem = [NSString stringWithFormat: @"Ipsum Lorem %ld", (long)count];
     [self.simPickerView insertItem: newItem afterRow: sel.item];
     count++;
+}
+
+- (IBAction)onReloadAndSelectItem0:(id)sender {
+    [self.simPickerView reloadDataWithCompleteion:^{
+        [self.simPickerView didSelectItemAtRow:3];
+    }];
+//    [self.simPickerView didSelectItemAtRow:3];
 }
 
 #pragma mark - delegate
@@ -127,6 +137,11 @@ static NSInteger count = 0;
 - (void)buttonDeletePressed:(UIButton *)btn onIndex:(NSInteger)index
 {
     NSLog(@"delete btn pressed on Index %ld", (long)index);
+}
+
+- (void)longTouchPressedOnIndex:(NSInteger)index
+{
+    NSLog(@"longTouchPressedOnIndex:%ld",(long)index);
 }
 - (IBAction)onNextItem:(id)sender
 {

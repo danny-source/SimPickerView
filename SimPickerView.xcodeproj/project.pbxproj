@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3035E6F71C044DC7003E5EBB /* SimPickerView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 3035E6F61C044DC7003E5EBB /* SimPickerView.podspec */; };
 		E21CC9F71A77349A00AFB2E0 /* SimPickerSupplementary.m in Sources */ = {isa = PBXBuildFile; fileRef = E21CC9F51A77349A00AFB2E0 /* SimPickerSupplementary.m */; };
 		E21CC9FE1A77862100AFB2E0 /* SimPickerSupplementaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21CC9FD1A77862100AFB2E0 /* SimPickerSupplementaryView.xib */; };
 		E29828511A6F580C00161719 /* CenterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E298284B1A6F580C00161719 /* CenterLayout.m */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3035E6F61C044DC7003E5EBB /* SimPickerView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimPickerView.podspec; sourceTree = "<group>"; };
 		E21CC9F41A77349A00AFB2E0 /* SimPickerSupplementary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimPickerSupplementary.h; sourceTree = "<group>"; };
 		E21CC9F51A77349A00AFB2E0 /* SimPickerSupplementary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimPickerSupplementary.m; sourceTree = "<group>"; };
 		E21CC9FD1A77862100AFB2E0 /* SimPickerSupplementaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimPickerSupplementaryView.xib; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		E2C3A2B01A53C60C00D2515F = {
 			isa = PBXGroup;
 			children = (
+				3035E6F61C044DC7003E5EBB /* SimPickerView.podspec */,
 				E29828491A6F580C00161719 /* Classes */,
 				E2C3A2BB1A53C60C00D2515F /* SimPickerView */,
 				E2C3A2D51A53C60C00D2515F /* SimPickerViewTests */,
@@ -201,7 +204,7 @@
 		E2C3A2B11A53C60C00D2515F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "CHING PING";
 				TargetAttributes = {
 					E2C3A2B81A53C60C00D2515F = {
@@ -242,6 +245,7 @@
 				E2C3A2CD1A53C60C00D2515F /* LaunchScreen.xib in Resources */,
 				E2BCC44D1A6DFF32005665D3 /* Readme.txt in Resources */,
 				E21CC9FE1A77862100AFB2E0 /* SimPickerSupplementaryView.xib in Resources */,
+				3035E6F71C044DC7003E5EBB /* SimPickerView.podspec in Resources */,
 				E2C3A2CA1A53C60C00D2515F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +348,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -408,7 +413,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SimPickerView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.coding-addict.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -418,7 +425,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SimPickerView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.coding-addict.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -436,6 +445,7 @@
 				);
 				INFOPLIST_FILE = SimPickerViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.coding-addict.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimPickerView.app/SimPickerView";
 			};
@@ -451,6 +461,7 @@
 				);
 				INFOPLIST_FILE = SimPickerViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.coding-addict.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimPickerView.app/SimPickerView";
 			};
